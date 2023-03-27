@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8223fc4d67c3e6c40a5ffeeb6777357a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - grassTile: {instanceID: 0}
+  - mountainTile: {instanceID: 0}
+  - mainCamera: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

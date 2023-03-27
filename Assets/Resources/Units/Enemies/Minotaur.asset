@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b26a335b5d8b294893f4f36355dc233, type: 3}
+  m_Name: Minotaur
+  m_EditorClassIdentifier: 
+  Faction: 1
+  UnitPrefab: {fileID: 4907462212164684909, guid: 5c8d1d785ac72d44e8010a47c02e73ae, type: 3}
