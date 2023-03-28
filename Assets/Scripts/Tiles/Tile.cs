@@ -39,17 +39,24 @@ public abstract class Tile : MonoBehaviour
     }
 
     // Set unit on tile
-    public void SetUnit(BaseUnit unit)
+    public int SetUnit(BaseUnit unit)
     {
+        int distance = 0;
+        
         if (unit.OccupiedTile != null) 
         {
             unit.OccupiedTile.OccupiedUnit = null;
+            distance = Mathf.RoundToInt(Vector2Int.Distance(new Vector2Int(unit.OccupiedTile.X, unit.OccupiedTile.Y), new Vector2Int(X, Y)));
         }
 
         unit.transform.position = transform.position;
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
+        
+        Debug.Log("Unit moved " + distance + " tiles");
+        return distance;
     }
+
 
     // Highlight movement range
     public void Highlight()

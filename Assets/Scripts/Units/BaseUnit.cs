@@ -8,6 +8,7 @@ public class BaseUnit : MonoBehaviour
     public Tile OccupiedTile;
     public Faction Faction;
     public List <Tile> availableTiles;
+    public int RemainingMovementPoints;
 
     [SerializeField] private int MovementPoints;
     [SerializeField] private int ActionPoints;
@@ -26,7 +27,7 @@ public class BaseUnit : MonoBehaviour
 
     public void ShowMovementRange()
     {
-        availableTiles = RangeFinder.GetMovementRangeTiles(OccupiedTile, MovementPoints);
+        availableTiles = RangeFinder.GetMovementRangeTiles(OccupiedTile, RemainingMovementPoints);
 
         // Include the current tile (OccupiedTile) if it's not already in the list
         if (!availableTiles.Contains(OccupiedTile))
