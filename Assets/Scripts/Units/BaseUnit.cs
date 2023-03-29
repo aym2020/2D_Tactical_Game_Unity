@@ -14,6 +14,7 @@ public class BaseUnit : MonoBehaviour
     [SerializeField] private int HealthPoints;
 
     private List<Tile> availableTiles;
+    public List<Tile> highlightedPath;
 
     // Getter and setter methods
     public int GetMovementPoints() => MovementPoints;
@@ -28,7 +29,6 @@ public class BaseUnit : MonoBehaviour
     {
         availableTiles = RangeFinder.GetMovementRangeTiles(OccupiedTile, RemainingMovementPoints);
 
-        // Include the current tile (OccupiedTile) if it's not already in the list
         if (!availableTiles.Contains(OccupiedTile))
         {
             availableTiles.Add(OccupiedTile);
@@ -46,7 +46,7 @@ public class BaseUnit : MonoBehaviour
     {
         foreach (Tile tile in availableTiles)
         {
-            tile.Highlight();
+            tile.HighlightMovementRange();
         }
     }
 
@@ -54,7 +54,37 @@ public class BaseUnit : MonoBehaviour
     {
         foreach (Tile tile in availableTiles)
         {
-            tile.Unhighlight();
+            tile.UnhighlightMovementRange();
         }
     }
+
+    public void ShowHighlightPath(Tile targetTile)
+    {
+        
+        highlightedPath = Pathfinder.GetPath(OccupiedTile, targetTile);
+
+        HighlightPathTiles();
+    }
+
+    public void HideHighlightPath()
+    {
+        UnhighlightPathTiles();
+    }
+
+    public void HighlightPathTiles()
+    {
+        foreach (Tile tile in highlightedPath)
+        {
+            tile.HighlightPath();
+        }   
+    }
+
+    public void UnhighlightPathTiles()
+    {
+        foreach (Tile tile in highlightedPath)
+        {
+            tile.UnhighlightPath();
+        }
+    }
+
 }

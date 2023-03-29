@@ -121,6 +121,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6570146394840766673, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
   m_PrefabInstance: {fileID: 798619533759520600}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8942841364116702489 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8578828334630443585, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
+  m_PrefabInstance: {fileID: 798619533759520600}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &-9039275297657941028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +141,8 @@ MonoBehaviour:
   TileName: Grassland
   _renderer: {fileID: 4930032105104963356}
   _highlight: {fileID: 7190123606005586263}
-  _movementHighlight: {fileID: 5780543200701745033}
+  _highlightMovement: {fileID: 5780543200701745033}
+  _highlightPath: {fileID: 8942841364116702489}
   _isWalkable: 1
   OccupiedUnit: {fileID: 0}
   _baseColor: {r: 0.43137255, g: 0.7372549, b: 0.3647059, a: 0.7058824}

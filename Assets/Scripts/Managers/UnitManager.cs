@@ -9,7 +9,7 @@ public class UnitManager : MonoBehaviour
     public static UnitManager Instance;
 
     private List<ScriptableUnit> _units;
-
+    
     public BaseHero SelectedHero;
 
     private void Awake()
@@ -117,11 +117,19 @@ public class UnitManager : MonoBehaviour
             if (SelectedHero != null)
             {
                 SelectedHero.HideMovementRange();
-                
-                List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(SelectedHero.OccupiedTile, SelectedHero.RemainingMovementPoints);
 
+                List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(SelectedHero.OccupiedTile, SelectedHero.RemainingMovementPoints);
+                
                 if (availableTiles.Contains(tile))
                 {
+                    if (SelectedHero.highlightedPath != null)
+                    {
+                        foreach (Tile pathTile in SelectedHero.highlightedPath)
+                        {
+                            pathTile.UnhighlightPath();
+                        }
+                    }  
+
                     int distanceTravelled = tile.SetUnit(SelectedHero);
                     SelectedHero.RemainingMovementPoints -= distanceTravelled;
 

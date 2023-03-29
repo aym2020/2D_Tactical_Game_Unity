@@ -7,7 +7,8 @@ public abstract class Tile : MonoBehaviour
     public string TileName;
     [SerializeField] protected SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
-    [SerializeField] private GameObject _movementHighlight;
+    [SerializeField] private GameObject _highlightMovement;
+    [SerializeField] private GameObject _highlightPath;
     [SerializeField] private bool _isWalkable;
 
     public int X { get; private set; }
@@ -26,11 +27,29 @@ public abstract class Tile : MonoBehaviour
     {
         _highlight.SetActive(true);
         MenuManager.Instance.ShowTileInfo(this);
+
+        if (UnitManager.Instance.SelectedHero != null)
+        {
+            List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(UnitManager.Instance.SelectedHero.OccupiedTile, UnitManager.Instance.SelectedHero.RemainingMovementPoints);
+            if (availableTiles.Contains(this))
+            {
+                UnitManager.Instance.SelectedHero.ShowHighlightPath(this);
+            }
+        }
     }
     void OnMouseExit()
     {
         _highlight.SetActive(false);
         MenuManager.Instance.ShowTileInfo(null);
+
+        if (UnitManager.Instance.SelectedHero != null)
+        {
+            List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(UnitManager.Instance.SelectedHero.OccupiedTile, UnitManager.Instance.SelectedHero.RemainingMovementPoints);
+            if (availableTiles.Contains(this))
+            {
+                UnitManager.Instance.SelectedHero.HideHighlightPath();
+            }
+        }
     }
 
     private void OnMouseDown()
@@ -64,15 +83,30 @@ public abstract class Tile : MonoBehaviour
 
 
     // Highlight movement range
-    public void Highlight()
+    public void HighlightMovementRange()
     {
-        _movementHighlight.SetActive(true);
+        _highlightMovement.SetActive(true);
     }
 
-    public void Unhighlight()
+    public void UnhighlightMovementRange()
     {
-        _movementHighlight.SetActive(false);
+        _highlightMovement.SetActive(false);
     }
-}
+
+    // Highlight movement range
+    public void HighlightPath()
+    {
+        _highlightPath.SetActive(true);
+    }
+
+    public void UnhighlightPath()
+    {
+        _highlightPath.SetActive(false);
+    }
+
+    
+
+} 
+
 
  
