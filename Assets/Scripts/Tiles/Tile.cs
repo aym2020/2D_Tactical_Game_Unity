@@ -38,6 +38,12 @@ public abstract class Tile : MonoBehaviour
         UnitManager.Instance.HandleTileClick(this);
     }
 
+    // Calculate the distance between two tiles
+    public int CalculateDistance(Tile otherTile)
+    {
+        return Mathf.RoundToInt(Vector2Int.Distance(new Vector2Int(X, Y), new Vector2Int(otherTile.X, otherTile.Y)));
+    }
+
     // Set unit on tile
     public int SetUnit(BaseUnit unit)
     {
@@ -46,14 +52,13 @@ public abstract class Tile : MonoBehaviour
         if (unit.OccupiedTile != null) 
         {
             unit.OccupiedTile.OccupiedUnit = null;
-            distance = Mathf.RoundToInt(Vector2Int.Distance(new Vector2Int(unit.OccupiedTile.X, unit.OccupiedTile.Y), new Vector2Int(X, Y)));
+            distance = CalculateDistance(unit.OccupiedTile);
         }
 
         unit.transform.position = transform.position;
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
         
-        Debug.Log("Unit moved " + distance + " tiles");
         return distance;
     }
 

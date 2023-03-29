@@ -7,11 +7,12 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
 
-    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject;
+    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _heroAttributesObject;
 
     private void Awake()
     {
         Instance = this;
+        _heroAttributesObject.SetActive(true);
     }
 
     public void ShowTileInfo(Tile tile)
@@ -33,6 +34,19 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void ShowHeroAttributes(Tile tile)
+    {
+        if (tile != null && tile.OccupiedUnit != null)
+        {
+            _heroAttributesObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.RemainingMovementPoints.ToString();
+            _heroAttributesObject.SetActive(true);
+        }
+        else
+        {
+            _heroAttributesObject.SetActive(false);
+        }
+    }
+
     public void ShowSelectedHero(BaseHero hero)
     {
         if (hero == null)
@@ -44,4 +58,5 @@ public class MenuManager : MonoBehaviour
         _selectedHeroObject.GetComponentInChildren<Text>().text = hero.UnitName;
         _selectedHeroObject.SetActive(true);
     }
+
 }

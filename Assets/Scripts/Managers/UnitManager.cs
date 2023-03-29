@@ -17,12 +17,6 @@ public class UnitManager : MonoBehaviour
         Instance = this;
 
         _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
-        /*Debug.Log($"Nombre d'unités chargées : {_units.Count}");
-        foreach (var unit in _units)
-        {
-            Debug.Log($"Unité chargée : {unit.name}, Faction : {unit.Faction}, Préfab : {unit.UnitPrefab}");
-        }*/
-
     }
 
     public void SpawnHeroes()
@@ -39,8 +33,17 @@ public class UnitManager : MonoBehaviour
 
             // Set the hero's remaining movement points to its max movement points
             spawnedHero.RemainingMovementPoints = spawnedHero.GetMovementPoints();
-        }
 
+            // Show hero attributes in the UI when a hero is selected
+            if (spawnedHero != null)
+            {
+                MenuManager.Instance.ShowHeroAttributes(spawnedHero.OccupiedTile);
+            }
+            else
+            {
+                MenuManager.Instance.ShowHeroAttributes(null);
+            }
+        }
         GameManager.Instance.ChangeState(GameState.SpawnEnemies);
     }
 
@@ -64,19 +67,11 @@ public class UnitManager : MonoBehaviour
     {
         var filteredUnits = _units.Where(u => u.Faction == faction && u.UnitPrefab is T).ToList();
 
-        /*Debug.Log($"Nombre d'unités filtrées : {filteredUnits.Count}");
-        foreach (var unit in filteredUnits)
-        {
-            Debug.Log($"Unité filtrée : {unit.name}, Faction : {unit.Faction}, Préfab : {unit.UnitPrefab}");
-        }*/
-
         T selectedUnit = _units.Where(u => u.Faction == faction && u.UnitPrefab is T)
                      .OrderBy(o => Random.value)
                      .Select(u => u.UnitPrefab)
                      .Cast<T>()
                      .FirstOrDefault();
-
-        /*Debug.Log($"Unité sélectionnée : {selectedUnit}");*/
 
         return selectedUnit;
     }
@@ -86,6 +81,7 @@ public class UnitManager : MonoBehaviour
         SelectedHero = hero;
         MenuManager.Instance.ShowSelectedHero(hero);
     }
+
 
     public void HandleTileClick(Tile tile)
     {
@@ -121,15 +117,20 @@ public class UnitManager : MonoBehaviour
             if (SelectedHero != null)
             {
                 SelectedHero.HideMovementRange();
+                
+                List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(SelectedHero.OccupiedTile, SelectedHero.RemainingMovementPoints);
 
-                int distanceTravelled = tile.SetUnit(SelectedHero);
-                /*Debug.Log($"Distance : {distanceTravelled}");*/
-                SelectedHero.RemainingMovementPoints -= distanceTravelled;
-                /*Debug.Log($"Remaining movement points : {SelectedHero.RemainingMovementPoints}");*/
+                if (availableTiles.Contains(tile))
+                {
+                    int distanceTravelled = tile.SetUnit(SelectedHero);
+                    SelectedHero.RemainingMovementPoints -= distanceTravelled;
 
-                SetSelectedHero(null);
+                    SetSelectedHero(null);
+
+                    MenuManager.Instance.ShowHeroAttributes(tile);
+                
+                }
             }
         }
-    }
-        
+    }   
 }

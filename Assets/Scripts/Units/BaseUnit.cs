@@ -7,23 +7,22 @@ public class BaseUnit : MonoBehaviour
     public string UnitName;
     public Tile OccupiedTile;
     public Faction Faction;
-    public List <Tile> availableTiles;
     public int RemainingMovementPoints;
 
     [SerializeField] private int MovementPoints;
     [SerializeField] private int ActionPoints;
     [SerializeField] private int HealthPoints;
 
-    
+    private List<Tile> availableTiles;
 
-    // getters and setters
-    public int GetMovementPoints() { return MovementPoints; }
-    public int GetActionPoints() { return ActionPoints; }
-    public int GetHealthPoints() { return HealthPoints; }
+    // Getter and setter methods
+    public int GetMovementPoints() => MovementPoints;
+    public int GetActionPoints() => ActionPoints;
+    public int GetHealthPoints() => HealthPoints;
 
-    public void SetMovementPoints(int value) { MovementPoints = value; }
-    public void SetActionPoints(int value) { ActionPoints = value; }
-    public void SetHealthPoints(int value) { HealthPoints = value; }
+    public void SetMovementPoints(int value) => MovementPoints = value;
+    public void SetActionPoints(int value) => ActionPoints = value;
+    public void SetHealthPoints(int value) => HealthPoints = value;
 
     public void ShowMovementRange()
     {
@@ -35,18 +34,27 @@ public class BaseUnit : MonoBehaviour
             availableTiles.Add(OccupiedTile);
         }
 
+        HighlightAvailableTiles();
+    }
+
+    public void HideMovementRange()
+    {
+        UnhighlightAvailableTiles();
+    }
+
+    private void HighlightAvailableTiles()
+    {
         foreach (Tile tile in availableTiles)
         {
             tile.Highlight();
         }
     }
 
-
-    public void HideMovementRange()
+    private void UnhighlightAvailableTiles()
     {
         foreach (Tile tile in availableTiles)
         {
             tile.Unhighlight();
         }
-    }        
+    }
 }
