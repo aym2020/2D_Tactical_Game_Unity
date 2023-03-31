@@ -18,6 +18,7 @@ public class GridManager : MonoBehaviour
         Instance = this;
     }
 
+    // Generate a grid of tiles
     public void GenerateGrid()
     {
         _tiles = new Dictionary<Vector2, Tile>();
@@ -30,8 +31,6 @@ public class GridManager : MonoBehaviour
                 spawnedTile.name = $"Tile ({x}, {y})";
 
                 spawnedTile.Init(x, y);
-
-                /*Debug.Log($"Generated tile {spawnedTile.name} ({x}, {y}), Tile coordinates: ({spawnedTile.X}, {spawnedTile.Y})");*/
 
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
@@ -46,6 +45,7 @@ public class GridManager : MonoBehaviour
         GameManager.Instance.ChangeState(GameState.SpawnHeroes);
     }
 
+    // Spawn heroes and enemies
     public Tile GetHeroSpawnTile()
     {
         return _tiles.Where(t => t.Key.x < _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
@@ -66,6 +66,7 @@ public class GridManager : MonoBehaviour
 
     }
 
+    // Get all neighbors of a tile
     public List<Tile> GetNeighbors(Tile tile)
     {
         List<Tile> neighbors = new List<Tile>();
@@ -73,8 +74,6 @@ public class GridManager : MonoBehaviour
         int x = tile.X;
         int y = tile.Y;
         
-        /*Debug.Log($"Tile coordinate {tile.name} ({x}, {y}");*/
-
         // Top
         if (y + 1 < _height)
         {
@@ -98,8 +97,6 @@ public class GridManager : MonoBehaviour
         {
             neighbors.Add(_tiles[new Vector2(x - 1, y)]);
         }
-
-        /*Debug.Log($"Neighbors of tile {tile.name}: {string.Join(", ", neighbors.Select(n => n.name))}");*/
 
         return neighbors;
     }

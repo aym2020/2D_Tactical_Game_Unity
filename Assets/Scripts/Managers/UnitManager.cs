@@ -122,9 +122,9 @@ public class UnitManager : MonoBehaviour
                 
                 if (availableTiles.Contains(tile))
                 {
-                    if (SelectedHero.highlightedPath != null)
+                    if (SelectedHero.HighlightedPath != null)
                     {
-                        foreach (Tile pathTile in SelectedHero.highlightedPath)
+                        foreach (Tile pathTile in SelectedHero.HighlightedPath)
                         {
                             pathTile.UnhighlightPath();
                         }

@@ -14,7 +14,12 @@ public class BaseUnit : MonoBehaviour
     [SerializeField] private int HealthPoints;
 
     private List<Tile> availableTiles;
-    public List<Tile> highlightedPath;
+    private List<Tile> highlightedPath;
+
+    public List<Tile> HighlightedPath
+    {
+        get { return highlightedPath; }
+    }
 
     // Getter and setter methods
     public int GetMovementPoints() => MovementPoints;
@@ -25,6 +30,7 @@ public class BaseUnit : MonoBehaviour
     public void SetActionPoints(int value) => ActionPoints = value;
     public void SetHealthPoints(int value) => HealthPoints = value;
 
+    // Show and hide movement range
     public void ShowMovementRange()
     {
         availableTiles = RangeFinder.GetMovementRangeTiles(OccupiedTile, RemainingMovementPoints);
@@ -58,6 +64,7 @@ public class BaseUnit : MonoBehaviour
         }
     }
 
+    // Show and hide path
     public void ShowHighlightPath(Tile targetTile)
     {
         
