@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public void ChangeState(GameState newState)
     {
         GameState = newState;
+        
         switch (newState)
         {
             case GameState.GenerateGrid:

@@ -8,11 +8,13 @@ public class MenuManager : MonoBehaviour
     public static MenuManager Instance;
 
     [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _heroAttributesObject;
+    [SerializeField] private Button _endTurnButton;
 
     private void Awake()
     {
         Instance = this;
         _heroAttributesObject.SetActive(true);
+        _endTurnButton.interactable = true;
     }
 
     public void ShowTileInfo(Tile tile)
