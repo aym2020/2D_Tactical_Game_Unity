@@ -87,20 +87,26 @@ public class UnitManager : MonoBehaviour
     {
         if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
 
+        // If the tile is occupied by a unit
         if (tile.OccupiedUnit != null)
         {
+
+            // If the unit is a hero
             if (tile.OccupiedUnit.Faction == Faction.Hero) 
             {
                 BaseHero selectedHero = SelectedHero;
 
+                // If a hero is already selected
                 if (selectedHero != null)
                 {
                     SelectedHero.HideMovementRange();
                     SetSelectedHero(null);
                 }
-
-                SetSelectedHero((BaseHero) tile.OccupiedUnit);
-                SelectedHero.ShowMovementRange();
+                else // If no hero is selected
+                {
+                    SetSelectedHero((BaseHero) tile.OccupiedUnit);
+                    SelectedHero.ShowMovementRange();
+                }
             }
             else
             {

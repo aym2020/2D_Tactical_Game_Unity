@@ -8,7 +8,7 @@ public class GridManager : MonoBehaviour
     public static GridManager Instance;
 
     [SerializeField] private Tile grassTile, mountainTile;
-    [SerializeField] private int _width, _height;
+    [SerializeField] private int _fieldSize;
     
     public Camera _mainCamera;
     private Dictionary<Vector2, Tile> _tiles;
@@ -22,9 +22,9 @@ public class GridManager : MonoBehaviour
     public void GenerateGrid()
     {
         _tiles = new Dictionary<Vector2, Tile>();
-        for (int x = 0; x < _width; x++)
+        for (int x = 0; x < _fieldSize; x++)
         {
-            for (int y = 0; y < _height; y++)
+            for (int y = 0; y < _fieldSize; y++)
             {
                 var randomTile = Random.Range(0, 6) == 3 ? mountainTile : grassTile;
                 var spawnedTile = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity, transform);
@@ -36,11 +36,7 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        _mainCamera.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
-
-        // Test GetNeighbors for a specific tile
-        Tile testTile = _tiles[new Vector2(3, 3)];
-        GetNeighbors(testTile);
+        _mainCamera.transform.position = new Vector3((float)_fieldSize / 2 - 0.5f, (float)_fieldSize / 2 - 0.5f + 0.5f, -10);
 
         GameManager.Instance.ChangeState(GameState.SpawnHeroes);
     }
@@ -48,12 +44,12 @@ public class GridManager : MonoBehaviour
     // Spawn heroes and enemies
     public Tile GetHeroSpawnTile()
     {
-        return _tiles.Where(t => t.Key.x < _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.Where(t => t.Key.x < _fieldSize / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
 
     public Tile GetEnemySpawnTile()
     {
-        return _tiles.Where(t => t.Key.x > _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.Where(t => t.Key.x > _fieldSize / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
 
     public Tile GetTileAtPosition(Vector2 pos)
@@ -75,7 +71,7 @@ public class GridManager : MonoBehaviour
         int y = tile.Y;
         
         // Top
-        if (y + 1 < _height)
+        if (y + 1 < _fieldSize)
         {
             neighbors.Add(_tiles[new Vector2(x, y + 1)]);
         }
@@ -87,7 +83,7 @@ public class GridManager : MonoBehaviour
         }
 
         // Right
-        if (x + 1 < _width)
+        if (x + 1 < _fieldSize)
         {
             neighbors.Add(_tiles[new Vector2(x + 1, y)]);
         }
@@ -102,4 +98,3 @@ public class GridManager : MonoBehaviour
     }
 
 }
-

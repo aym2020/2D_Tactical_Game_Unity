@@ -7,7 +7,7 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
 
-    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _heroAttributesObject;
+    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _heroAttributesObject, _currentGameStateObject;
     [SerializeField] private Button _endTurnButton;
 
     private void Awake()
@@ -60,5 +60,11 @@ public class MenuManager : MonoBehaviour
         _selectedHeroObject.GetComponentInChildren<Text>().text = hero.UnitName;
         _selectedHeroObject.SetActive(true);
     }
+
+    public void ShowCurrentGameState(GameState gameState)
+    {
+        _currentGameStateObject.GetComponentInChildren<Text>().text = gameState.ToString();
+    }
+
 
 }

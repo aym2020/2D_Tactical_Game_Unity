@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Update()
+    {
+        MenuManager.Instance.ShowCurrentGameState(GameState);
+    }
+
     void Start()
     {
         ChangeState(GameState.GenerateGrid);
