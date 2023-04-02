@@ -28,7 +28,7 @@ public class BaseUnit : MonoBehaviour
     public List<Tile> TargetableTiles
     {
         get { return targetableTiles; }
-    }    
+    }
 
     // Getter and setter methods
     public int GetMovementPoints() => MovementPoints;
@@ -38,6 +38,11 @@ public class BaseUnit : MonoBehaviour
     public void SetMovementPoints(int value) => MovementPoints = value;
     public void SetActionPoints(int value) => ActionPoints = value;
     public void SetHealthPoints(int value) => HealthPoints = value;
+
+    private void Awake() 
+    {
+        OccupiedTile = GridManager.Instance.GetHeroSpawnTile();
+    }
 
     // Show and hide movement range
     public void ShowMovementRange()
@@ -104,8 +109,7 @@ public class BaseUnit : MonoBehaviour
     }
 
     //Show and hide spell range
-    //Show and hide spell range
-    public void ShowSpellRange(int spellRange)
+    public void ShowSpellRange(Tile OccupiedTile, int spellRange)
     {
         targetableTiles = RangeFinder.GetSpellRangeTiles(OccupiedTile, spellRange);
 

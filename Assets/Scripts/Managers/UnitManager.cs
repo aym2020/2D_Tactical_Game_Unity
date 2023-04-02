@@ -9,13 +9,14 @@ public class UnitManager : MonoBehaviour
     public static UnitManager Instance;
 
     private List<ScriptableUnit> _units;
-    
+
     public BaseHero SelectedHero;
+    
+    [SerializeField] private List<GameObject> spellButtons;
 
     private void Awake()
     {
         Instance = this;
-
         _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
     }
 
@@ -42,6 +43,15 @@ public class UnitManager : MonoBehaviour
             else
             {
                 MenuManager.Instance.ShowHeroAttributes(null);
+            }
+            // Update the SpellButtonHandler with the instantiated hero's SpellCaster component
+            SpellCaster heroSpellCaster = spawnedHero.GetComponent<SpellCaster>();
+
+            // Assuming you have a reference to the spell buttons in an array or list
+            foreach (GameObject spellButton in spellButtons)
+            {
+                SpellButtonHandler spellButtonHandler = spellButton.GetComponent<SpellButtonHandler>();
+                spellButtonHandler.SetSpellCaster(heroSpellCaster);
             }
         }
         GameManager.Instance.ChangeState(GameState.SpawnEnemies);
@@ -113,8 +123,7 @@ public class UnitManager : MonoBehaviour
                 if(SelectedHero != null)
                 {
                     var enemy = (BaseEnemy) tile.OccupiedUnit;
-                Destroy(enemy.gameObject);
-                SetSelectedHero(null);
+                    SetSelectedHero(null);
                 }
             }
         }
@@ -143,6 +152,10 @@ public class UnitManager : MonoBehaviour
 
                     MenuManager.Instance.ShowHeroAttributes(tile);
                 
+                }
+                else
+                {
+                    SetSelectedHero(null);
                 }
             }
         }

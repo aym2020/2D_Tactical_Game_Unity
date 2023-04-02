@@ -7,6 +7,10 @@ public class SpellCaster : MonoBehaviour
     public List<BaseSpell> spells;
     private BaseSpell activeSpell;
 
+    // getters and setters
+    public BaseSpell GetActiveSpell() => activeSpell;
+    public List<BaseSpell> Spells => spells;
+       
     public void CastSpell(int spellIndex, Vector3 target)
     {
         if (spellIndex >= 0 && spellIndex < spells.Count)

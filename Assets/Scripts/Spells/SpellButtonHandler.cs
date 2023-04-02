@@ -3,29 +3,31 @@ using UnityEngine.UI;
 
 public class SpellButtonHandler : MonoBehaviour
 {
-    [SerializeField] private BaseSpell spell;
-    [SerializeField] private Button button;
-    private SpellCaster spellCaster;
+    public SpellCaster spellCaster;
+    public int spellIndex;
+    private Button button;
 
     private void Start()
     {
-        // Assuming the SpellCaster component is attached to the same object as the button
-        spellCaster = GetComponentInParent<SpellCaster>();
-
-        if (button == null)
-        {
-            button = GetComponent<Button>();
-        }
-
-        if (button != null)
-        {
-            button.onClick.AddListener(OnButtonClick);
-        }
+        button = GetComponent<Button>();
+        button.onClick.AddListener(OnButtonClick);
     }
 
-    private void OnButtonClick()
+    public void OnButtonClick()
     {
-        // You may want to implement a method in your SpellCaster class to set the active spell
-        spellCaster.SetActiveSpell(spell);
+        
+        if (spellCaster == null)
+        {
+            return;
+        }
+        
+        BaseSpell selectedSpell = spellCaster.Spells[spellIndex];
+        spellCaster.SetActiveSpell(selectedSpell);
+        spellCaster.GetComponent<BaseUnit>().ShowSpellRange(spellCaster.GetComponent<BaseUnit>().OccupiedTile, selectedSpell.GetSpellRange());
+    }
+
+    public void SetSpellCaster(SpellCaster newSpellCaster)
+    {
+        spellCaster = newSpellCaster;
     }
 }

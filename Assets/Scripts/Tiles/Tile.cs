@@ -85,7 +85,7 @@ public abstract class Tile : MonoBehaviour
 
 
     // Highlight movement range
-    public void HighlightMovementRange()
+    public virtual void HighlightMovementRange()
     {
         _highlightMovement.SetActive(true);
     }
@@ -96,7 +96,7 @@ public abstract class Tile : MonoBehaviour
     }
 
     // Highlight movement range
-    public void HighlightPath()
+    public virtual void HighlightPath()
     {
         _highlightPath.SetActive(true);
     }
@@ -107,14 +107,14 @@ public abstract class Tile : MonoBehaviour
     }
 
     // Highlight spell range
-    public void HighlightSpellRange()
+    public virtual void HighlightSpellRange()
     {
-        _highlightMovement.SetActive(true);
+        _highlightSpellRange.SetActive(true);
     }
 
     public void UnhighlightSpellRange()
     {
-        _highlightMovement.SetActive(false);
+        _highlightSpellRange.SetActive(false);
     }
     
 

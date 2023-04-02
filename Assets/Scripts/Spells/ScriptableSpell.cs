@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Spell", menuName = "Spells/Spell")]
+
 public class ScriptableSpell : ScriptableObject
 {
     public BaseSpell spellPrefab;
