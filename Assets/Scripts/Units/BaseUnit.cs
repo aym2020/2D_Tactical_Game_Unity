@@ -72,9 +72,12 @@ public class BaseUnit : MonoBehaviour
 
     private void UnhighlightAvailableTiles()
     {
-        foreach (Tile tile in availableTiles)
+        if (availableTiles != null)
         {
-            tile.UnhighlightMovementRange();
+            foreach (Tile tile in availableTiles)
+            {
+                tile.UnhighlightMovementRange();
+            }
         }
     }
 
@@ -95,16 +98,19 @@ public class BaseUnit : MonoBehaviour
     public void HighlightPathTiles()
     {
         foreach (Tile tile in highlightedPath)
-        {
-            tile.HighlightPath();
-        }   
+            {
+                tile.HighlightPath();
+            }   
     }
 
     public void UnhighlightPathTiles()
     {
-        foreach (Tile tile in highlightedPath)
+        if (highlightedPath != null)
         {
-            tile.UnhighlightPath();
+            foreach (Tile tile in highlightedPath)
+            {
+                tile.UnhighlightPath();
+            }
         }
     }
 
@@ -136,9 +142,12 @@ public class BaseUnit : MonoBehaviour
 
     public void UnhighlightTargetableTiles()
     {
-        foreach (Tile tile in targetableTiles)
+        if (targetableTiles != null)
         {
-            tile.UnhighlightSpellRange();
+            foreach (Tile tile in targetableTiles)
+            {
+                tile.UnhighlightSpellRange();
+            }
         }
     }
 

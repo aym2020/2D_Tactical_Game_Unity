@@ -56,7 +56,7 @@ public class RangeFinder
         foreach (Tile tile in GridManager.Instance._tiles.Values)
         {
             int distance = originTile.CalculateDistance(tile);
-            if (distance <= spellRange)
+            if (distance <= spellRange && distance > 0)
             {
                 rangeTiles.Add(tile);
             }

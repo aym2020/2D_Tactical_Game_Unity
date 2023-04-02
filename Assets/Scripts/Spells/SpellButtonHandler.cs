@@ -20,10 +20,19 @@ public class SpellButtonHandler : MonoBehaviour
         {
             return;
         }
-        
+
+        // Hide the movement range and highlight path
+        spellCaster.GetComponent<BaseUnit>().HideHighlightPath();
+        spellCaster.GetComponent<BaseUnit>().HideMovementRange();
+        spellCaster.GetComponent<BaseUnit>().HideSpellRange();
+
+        // Show the spell range
         BaseSpell selectedSpell = spellCaster.Spells[spellIndex];
         spellCaster.SetActiveSpell(selectedSpell);
         spellCaster.GetComponent<BaseUnit>().ShowSpellRange(spellCaster.GetComponent<BaseUnit>().OccupiedTile, selectedSpell.GetSpellRange());
+
+        // Set the selected spell
+        SpellManager.Instance.SelectedSpell = selectedSpell;
     }
 
     public void SetSpellCaster(SpellCaster newSpellCaster)

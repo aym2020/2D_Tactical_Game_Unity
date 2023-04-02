@@ -9,7 +9,13 @@ public class SpellManager : MonoBehaviour
     
     private List<ScriptableSpell> _spells;
 
-    public BaseSpell SelectedSpell;
+    public BaseSpell _selectedSpell;
+
+    public BaseSpell SelectedSpell
+    {
+        get { return _selectedSpell; }
+        set { _selectedSpell = value; }
+    }
 
     private void Awake()
     {

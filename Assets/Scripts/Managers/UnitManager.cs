@@ -11,6 +11,14 @@ public class UnitManager : MonoBehaviour
     private List<ScriptableUnit> _units;
 
     public BaseHero SelectedHero;
+    public BaseHero SpawnedHero;
+
+    // Setters
+    public void SetSpawnedHero(BaseHero hero)
+    {
+        SpawnedHero = hero;
+    }
+
     
     [SerializeField] private List<GameObject> spellButtons;
 
@@ -27,25 +35,27 @@ public class UnitManager : MonoBehaviour
         for (int i = 0; i < heroCount; i++)
         {
             var randomPrefab = GetRandomUnit<BaseHero>(Faction.Hero);
-            var spawnedHero = Instantiate(randomPrefab);
+
+            SetSpawnedHero(Instantiate(randomPrefab));
+
             var randomSpawnTile = GridManager.Instance.GetHeroSpawnTile();
 
-            randomSpawnTile.SetUnit(spawnedHero);
+            randomSpawnTile.SetUnit(SpawnedHero);
 
             // Set the hero's remaining movement points to its max movement points
-            spawnedHero.RemainingMovementPoints = spawnedHero.GetMovementPoints();
+            SpawnedHero.RemainingMovementPoints = SpawnedHero.GetMovementPoints();
 
             // Show hero attributes in the UI when a hero is selected
-            if (spawnedHero != null)
+            if (SpawnedHero != null)
             {
-                MenuManager.Instance.ShowHeroAttributes(spawnedHero.OccupiedTile);
+                MenuManager.Instance.ShowHeroAttributes(SpawnedHero.OccupiedTile);
             }
             else
             {
                 MenuManager.Instance.ShowHeroAttributes(null);
             }
             // Update the SpellButtonHandler with the instantiated hero's SpellCaster component
-            SpellCaster heroSpellCaster = spawnedHero.GetComponent<SpellCaster>();
+            SpellCaster heroSpellCaster = SpawnedHero.GetComponent<SpellCaster>();
 
             // Assuming you have a reference to the spell buttons in an array or list
             foreach (GameObject spellButton in spellButtons)
@@ -96,6 +106,17 @@ public class UnitManager : MonoBehaviour
     public void HandleTileClick(Tile tile)
     {
         if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
+
+        // If selected spell is not null, hide the spell range
+   
+        if (SpellManager.Instance.SelectedSpell != null)
+        {
+            if (SpawnedHero != null)
+            {
+                SpawnedHero.HideSpellRange();
+            }
+            SpellManager.Instance.SelectedSpell = null;
+        }
 
         // If the tile is occupied by a unit
         if (tile.OccupiedUnit != null)

@@ -90,7 +90,7 @@ public abstract class Tile : MonoBehaviour
         _highlightMovement.SetActive(true);
     }
 
-    public void UnhighlightMovementRange()
+    public virtual void UnhighlightMovementRange()
     {
         _highlightMovement.SetActive(false);
     }
@@ -101,7 +101,7 @@ public abstract class Tile : MonoBehaviour
         _highlightPath.SetActive(true);
     }
 
-    public void UnhighlightPath()
+    public virtual void UnhighlightPath()
     {
         _highlightPath.SetActive(false);
     }
@@ -112,7 +112,7 @@ public abstract class Tile : MonoBehaviour
         _highlightSpellRange.SetActive(true);
     }
 
-    public void UnhighlightSpellRange()
+    public virtual void UnhighlightSpellRange()
     {
         _highlightSpellRange.SetActive(false);
     }

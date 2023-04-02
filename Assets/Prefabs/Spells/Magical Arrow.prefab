@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a7958b39577aa419108fb79ff3707b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellName: 
+  spellName: Magical Arrow
   spellIcon: {fileID: 21300000, guid: e540d91b7b396da41bc36958d8dbd6ba, type: 3}
   spellRange: 6
   spellDamageBottom: 2
