@@ -9,6 +9,7 @@ public abstract class Tile : MonoBehaviour
     [SerializeField] private GameObject _highlight;
     [SerializeField] private GameObject _highlightMovement;
     [SerializeField] private GameObject _highlightPath;
+    [SerializeField] private GameObject _highlightSpellRange;
     [SerializeField] private bool _isWalkable;
 
     public int X { get; private set; }
@@ -60,8 +61,9 @@ public abstract class Tile : MonoBehaviour
     // Calculate the distance between two tiles
     public int CalculateDistance(Tile otherTile)
     {
-        return Mathf.RoundToInt(Vector2Int.Distance(new Vector2Int(X, Y), new Vector2Int(otherTile.X, otherTile.Y)));
+        return Mathf.Abs(X - otherTile.X) + Mathf.Abs(Y - otherTile.Y);
     }
+
 
     // Set unit on tile
     public int SetUnit(BaseUnit unit)
@@ -104,6 +106,16 @@ public abstract class Tile : MonoBehaviour
         _highlightPath.SetActive(false);
     }
 
+    // Highlight spell range
+    public void HighlightSpellRange()
+    {
+        _highlightMovement.SetActive(true);
+    }
+
+    public void UnhighlightSpellRange()
+    {
+        _highlightMovement.SetActive(false);
+    }
     
 
 } 

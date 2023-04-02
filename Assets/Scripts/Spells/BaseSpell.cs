@@ -1,0 +1,60 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BaseSpell : MonoBehaviour
+{
+    [SerializeField] private string spellName;
+    [SerializeField] private Sprite spellIcon;
+    [SerializeField] private int spellRange;
+    [SerializeField] private int spellDamageBottom;
+    [SerializeField] private int spellDamageUp;
+    [SerializeField] private int spellCost;
+    [SerializeField] private int spellCooldown;
+    [SerializeField] private int spellDuration;
+    [SerializeField] private int spellRadius;
+    public SpellType spellType;
+    public SpellRangeType spellRangeType;
+
+    // getter and setter methods
+    public string GetSpellName() => spellName;
+    public Sprite GetSpellIcon() => spellIcon;
+    public int GetSpellRange() => spellRange;
+    public int GetSpellDamageBottom() => spellDamageBottom;
+    public int GetSpellDamageUp() => spellDamageUp;
+    public int GetSpellCost() => spellCost;
+    public int GetSpellCooldown() => spellCooldown;
+    public int GetSpellDuration() => spellDuration;
+    public int GetSpellRadius() => spellRadius;
+    public SpellType GetSpellType() => spellType;
+    public SpellRangeType GetSpellRangeType() => spellRangeType;
+
+    public void SetSpellName(string value) => spellName = value;
+    public void SetSpellIcon(Sprite value) => spellIcon = value;
+    public void SetSpellRange(int value) => spellRange = value;
+    public void SetSpellDamageBottom(int value) => spellDamageBottom = value;
+    public void SetSpellDamageUp(int value) => spellDamageUp = value;
+    public void SetSpellCost(int value) => spellCost = value;
+    public void SetSpellCooldown(int value) => spellCooldown = value;
+    public void SetSpellDuration(int value) => spellDuration = value;
+    public void SetSpellRadius(int value) => spellRadius = value;
+    public void SetSpellType(SpellType value) => spellType = value;
+    public void SetSpellRangeType(SpellRangeType value) => spellRangeType = value;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void Cast(BaseUnit caster, Vector3 target)
+    {
+        Debug.Log("Casting " + spellName + " on " + target);
+    }
+}

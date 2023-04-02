@@ -15,11 +15,20 @@ public class BaseUnit : MonoBehaviour
 
     private List<Tile> availableTiles;
     private List<Tile> highlightedPath;
+    private List<Tile> targetableTiles;
 
+    public List<Tile> AvailableTiles
+    {
+        get { return availableTiles; }
+    }
     public List<Tile> HighlightedPath
     {
         get { return highlightedPath; }
     }
+    public List<Tile> TargetableTiles
+    {
+        get { return targetableTiles; }
+    }    
 
     // Getter and setter methods
     public int GetMovementPoints() => MovementPoints;
@@ -93,5 +102,41 @@ public class BaseUnit : MonoBehaviour
             tile.UnhighlightPath();
         }
     }
+
+    //Show and hide spell range
+    //Show and hide spell range
+    public void ShowSpellRange(int spellRange)
+    {
+        targetableTiles = RangeFinder.GetSpellRangeTiles(OccupiedTile, spellRange);
+
+        if (!targetableTiles.Contains(OccupiedTile))
+        {
+            targetableTiles.Add(OccupiedTile);
+        }
+
+        HighlightTargetableTiles();
+    }
+
+    public void HideSpellRange()
+    {
+        UnhighlightTargetableTiles();
+    }
+
+    public void HighlightTargetableTiles()
+    {
+        foreach (Tile tile in targetableTiles)
+        {
+            tile.HighlightSpellRange();
+        }
+    }
+
+    public void UnhighlightTargetableTiles()
+    {
+        foreach (Tile tile in targetableTiles)
+        {
+            tile.UnhighlightSpellRange();
+        }
+    }
+
 
 }

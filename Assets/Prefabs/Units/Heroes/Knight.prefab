@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3933890373811556372}
   - component: {fileID: 4392830368341232023}
   - component: {fileID: 1655664882223527371}
+  - component: {fileID: -1986589854213342613}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -98,6 +99,21 @@ MonoBehaviour:
   UnitName: Knight
   OccupiedTile: {fileID: 0}
   Faction: 0
+  RemainingMovementPoints: 0
   MovementPoints: 3
   ActionPoints: 6
   HealthPoints: 40
+--- !u!114 &-1986589854213342613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7634486513472420672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f908a5f29117e2438de11aad5fd5f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spells:
+  - {fileID: -4932316596635012729, guid: d0a41eecf8d75604f830a283c039048e, type: 3}

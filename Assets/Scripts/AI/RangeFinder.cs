@@ -18,8 +18,6 @@ public class RangeFinder
             Tile currentTile = currentNode.tile;
             int currentDistance = currentNode.distance;
 
-            /*Debug.Log($"Processing tile {currentTile.name} with distance {currentDistance}");*/
-
             if (currentDistance < movementPoints)
             {
                 List<Tile> neighbors = GridManager.Instance.GetNeighbors(currentTile);
@@ -36,11 +34,6 @@ public class RangeFinder
             }
         }
 
-        foreach (var tile in availableTiles)
-        {
-            /*Debug.Log($"Available tile : {tile.name}");*/
-        }
-
         return availableTiles;
     }
 
@@ -55,4 +48,21 @@ public class RangeFinder
             this.distance = distance;
         }
     }
+
+    public static List<Tile> GetSpellRangeTiles(Tile originTile, int spellRange)
+    {
+        List<Tile> rangeTiles = new List<Tile>();
+
+        foreach (Tile tile in GridManager.Instance._tiles.Values)
+        {
+            int distance = originTile.CalculateDistance(tile);
+            if (distance <= spellRange)
+            {
+                rangeTiles.Add(tile);
+            }
+        }
+
+        return rangeTiles;
+    }
+
 }
