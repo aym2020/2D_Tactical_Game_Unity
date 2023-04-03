@@ -5,12 +5,14 @@ using UnityEngine;
 public abstract class Tile : MonoBehaviour
 {
     public string TileName;
+    public bool isObstacle;
     [SerializeField] protected SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
     [SerializeField] private GameObject _highlightMovement;
     [SerializeField] private GameObject _highlightPath;
     [SerializeField] private GameObject _highlightSpellRange;
     [SerializeField] private bool _isWalkable;
+    [SerializeField] private BoxCollider2D tileCollider;
 
     public int X { get; private set; }
     public int Y { get; private set; }

@@ -56,13 +56,55 @@ public class RangeFinder
         foreach (Tile tile in GridManager.Instance._tiles.Values)
         {
             int distance = originTile.CalculateDistance(tile);
-            if (distance <= spellRange && distance > 0)
+            if (distance <= spellRange && distance > 0 && HasLineOfSight(originTile, tile))
             {
                 rangeTiles.Add(tile);
             }
         }
 
         return rangeTiles;
+    }
+
+    private static bool HasLineOfSight(Tile start, Tile end)
+    {
+        int x0 = start.X;
+        int y0 = start.Y;
+        int x1 = end.X;
+        int y1 = end.Y;
+
+        int dx = Mathf.Abs(x1 - x0);
+        int dy = Mathf.Abs(y1 - y0);
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
+
+        int err = dx - dy;
+
+        while (true)
+        {
+            if (x0 == x1 && y0 == y1) break;
+
+            int e2 = 2 * err;
+            if (e2 > -dy)
+            {
+                err -= dy;
+                x0 += sx;
+            }
+            if (e2 < dx)
+            {
+                err += dx;
+                y0 += sy;
+            }
+
+            Tile currentTile = GridManager.Instance.GetTileAtPosition(new Vector2(x0, y0));
+            if (currentTile == start || currentTile == end) continue;
+
+            if (currentTile != null && currentTile.isObstacle)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

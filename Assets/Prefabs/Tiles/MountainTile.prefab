@@ -103,14 +103,14 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5728501933348612164, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
   m_PrefabInstance: {fileID: 3130147122162395714}
   m_PrefabAsset: {fileID: 0}
+--- !u!61 &2003561877488289431 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3512403985208650965, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
+  m_PrefabInstance: {fileID: 3130147122162395714}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4876751153867713613 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7556256700608644623, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
-  m_PrefabInstance: {fileID: 3130147122162395714}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8096730437176488595 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6570146394840766673, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
   m_PrefabInstance: {fileID: 3130147122162395714}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &5480578709091384967
@@ -126,8 +126,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TileName: Mountain
+  isObstacle: 1
   _renderer: {fileID: 7210049773314933254}
   _highlight: {fileID: 4876751153867713613}
-  _movementHighlight: {fileID: 8096730437176488595}
+  _highlightMovement: {fileID: 0}
+  _highlightPath: {fileID: 0}
+  _highlightSpellRange: {fileID: 0}
   _isWalkable: 0
+  tileCollider: {fileID: 2003561877488289431}
   OccupiedUnit: {fileID: 0}

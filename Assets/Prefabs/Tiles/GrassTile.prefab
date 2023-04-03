@@ -111,6 +111,11 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5728501933348612164, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
   m_PrefabInstance: {fileID: 798619533759520600}
   m_PrefabAsset: {fileID: 0}
+--- !u!61 &4299764382326043533 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3512403985208650965, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
+  m_PrefabInstance: {fileID: 798619533759520600}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7190123606005586263 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7556256700608644623, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
@@ -144,12 +149,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TileName: Grassland
+  isObstacle: 0
   _renderer: {fileID: 4930032105104963356}
   _highlight: {fileID: 7190123606005586263}
   _highlightMovement: {fileID: 5780543200701745033}
   _highlightPath: {fileID: 8942841364116702489}
   _highlightSpellRange: {fileID: 1638106410786027835}
   _isWalkable: 1
+  tileCollider: {fileID: 4299764382326043533}
   OccupiedUnit: {fileID: 0}
   _baseColor: {r: 0.43137255, g: 0.7372549, b: 0.3647059, a: 0.7058824}
   _offsetColor: {r: 0.4, g: 0.6901961, b: 0.3372549, a: 0.7058824}

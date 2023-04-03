@@ -49,7 +49,7 @@ MonoBehaviour:
   OccupiedTile: {fileID: 0}
   Faction: 0
   RemainingMovementPoints: 0
-  MovementPoints: 3
+  MovementPoints: 10
   ActionPoints: 6
   HealthPoints: 40
 --- !u!114 &-1986589854213342613
