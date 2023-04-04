@@ -67,25 +67,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3512403985208650965, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3512403985208650965, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4372065412176904777, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
       propertyPath: m_Name
       value: GrassTile
       objectReference: {fileID: 0}
+    - target: {fileID: 5728501933348612164, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 524f7e740f1949e4695b2b4478ab8502, type: 3}
     - target: {fileID: 5728501933348612164, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5728501933348612164, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
       propertyPath: m_Color.b
-      value: 0.50514543
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5728501933348612164, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
       propertyPath: m_Color.g
-      value: 0.9056604
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5728501933348612164, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
       propertyPath: m_Color.r
-      value: 0.43915984
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6302514251040786430, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
       propertyPath: m_Color.a
@@ -158,5 +170,5 @@ MonoBehaviour:
   _isWalkable: 1
   tileCollider: {fileID: 4299764382326043533}
   OccupiedUnit: {fileID: 0}
-  _baseColor: {r: 0.43137255, g: 0.7372549, b: 0.3647059, a: 0.7058824}
-  _offsetColor: {r: 0.4, g: 0.6901961, b: 0.3372549, a: 0.7058824}
+  _baseColor: {r: 0.43137255, g: 0.7372549, b: 0.3647059, a: 1}
+  _offsetColor: {r: 0.4, g: 0.6901961, b: 0.3372549, a: 1}

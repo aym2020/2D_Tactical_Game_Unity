@@ -13,8 +13,9 @@ public enum SpellRangeType
 {
     Self = 0,
     Target = 1,
-    Area = 2,
-    Line = 3
+    SelfTarget = 2,
+    Area = 3,
+    Line = 4
 }
 
 public enum SpellType

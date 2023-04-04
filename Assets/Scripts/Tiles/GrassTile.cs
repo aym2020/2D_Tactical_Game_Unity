@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GrassTile : Tile
 {
-    [SerializeField] private Color _baseColor, _offsetColor;
+    [SerializeField] private Color _baseColor, _offsetColor; //6EBC5D - 66B056
 
     public override void Init(int x, int y)
     {

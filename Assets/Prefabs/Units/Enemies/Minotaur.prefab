@@ -69,8 +69,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1718476063
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: -3354924866470422771, guid: ed9a5eb5480385e40b0ed5d377280d8b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -98,6 +98,7 @@ MonoBehaviour:
   UnitName: Minotaur
   OccupiedTile: {fileID: 0}
   Faction: 1
+  RemainingMovementPoints: 0
   MovementPoints: 3
   ActionPoints: 6
   HealthPoints: 50
