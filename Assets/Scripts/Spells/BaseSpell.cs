@@ -53,8 +53,4 @@ public class BaseSpell : MonoBehaviour
         
     }
 
-    public void Cast(BaseUnit caster, Vector3 target)
-    {
-        Debug.Log("Casting " + spellName + " on " + target);
-    }
 }

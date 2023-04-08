@@ -8,6 +8,8 @@ public class BaseUnit : MonoBehaviour
     public Tile OccupiedTile;
     public Faction Faction;
     public int RemainingMovementPoints;
+    public int RemainingActionPoints;
+
 
     [SerializeField] private int MovementPoints;
     [SerializeField] private int ActionPoints;
@@ -34,13 +36,20 @@ public class BaseUnit : MonoBehaviour
     public int GetMovementPoints() => MovementPoints;
     public int GetActionPoints() => ActionPoints;
     public int GetHealthPoints() => HealthPoints;
+    public int GetRemainingMovementPoints() => RemainingMovementPoints;
+    public int GetRemainingActionPoints() => RemainingActionPoints;
 
     public void SetMovementPoints(int value) => MovementPoints = value;
     public void SetActionPoints(int value) => ActionPoints = value;
     public void SetHealthPoints(int value) => HealthPoints = value;
-
+    public void SetRemainingMovementPoints(int value) => RemainingMovementPoints = value;
+    public void SetRemainingActionPoints(int value) => RemainingActionPoints = value;
+    
     private void Awake() 
     {
+        SetRemainingMovementPoints(MovementPoints);
+        SetRemainingActionPoints(ActionPoints);
+
         OccupiedTile = GridManager.Instance.GetHeroSpawnTile();
     }
 

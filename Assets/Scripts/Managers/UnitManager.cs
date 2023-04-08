@@ -42,17 +42,16 @@ public class UnitManager : MonoBehaviour
 
             randomSpawnTile.SetUnit(SpawnedHero);
 
-            // Set the hero's remaining movement points to its max movement points
-            SpawnedHero.RemainingMovementPoints = SpawnedHero.GetMovementPoints();
-
             // Show hero attributes in the UI when a hero is selected
             if (SpawnedHero != null)
             {
-                MenuManager.Instance.ShowHeroAttributes(SpawnedHero.OccupiedTile);
+                MenuManager.Instance.ShowRemainingMovementPoint(SpawnedHero.OccupiedTile);
+                MenuManager.Instance.ShowRemainingActionPoint(SpawnedHero.OccupiedTile);
             }
             else
             {
-                MenuManager.Instance.ShowHeroAttributes(null);
+                MenuManager.Instance.ShowRemainingMovementPoint(null);
+                MenuManager.Instance.ShowRemainingActionPoint(null);
             }
             // Update the SpellButtonHandler with the instantiated hero's SpellCaster component
             SpellCaster heroSpellCaster = SpawnedHero.GetComponent<SpellCaster>();
@@ -102,19 +101,20 @@ public class UnitManager : MonoBehaviour
         MenuManager.Instance.ShowSelectedHero(hero);
     }
 
-
     public void HandleTileClick(Tile tile)
     {
         if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
 
-        // If selected spell is not null, hide the spell range
-   
+        // If selected spell is not null, hide the spell range and try casting the spell
         if (SpellManager.Instance.SelectedSpell != null)
         {
             if (SpawnedHero != null)
             {
                 SpawnedHero.HideSpellRange();
             }
+
+            TryCastSpell(tile);
+
             SpellManager.Instance.SelectedSpell = null;
         }
 
@@ -171,7 +171,7 @@ public class UnitManager : MonoBehaviour
 
                     SetSelectedHero(null);
 
-                    MenuManager.Instance.ShowHeroAttributes(tile);
+                    MenuManager.Instance.ShowRemainingMovementPoint(tile);
                 
                 }
                 else
@@ -180,5 +180,29 @@ public class UnitManager : MonoBehaviour
                 }
             }
         }
-    }   
+    }  
+
+    private void TryCastSpell(Tile targetTile)
+    {
+        if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
+
+        // If selected spell is not null, hide the spell range and try casting the spell
+        if (SpellManager.Instance.SelectedSpell != null && SpawnedHero != null)
+        {
+            SpawnedHero.HideSpellRange();
+
+            // Check if the target tile is within the spell range
+            if (SpawnedHero.TargetableTiles.Contains(targetTile))
+            {
+                // Cast the selected spell on the target tile
+                SpellManager.Instance.Cast(SpellManager.Instance.SelectedSpell, SpawnedHero, targetTile);
+
+                // Update the remaining action points in the UI
+                MenuManager.Instance.ShowRemainingActionPoint(SpawnedHero.OccupiedTile);
+            }
+
+            SpellManager.Instance.SelectedSpell = null;
+        }
+    }
+
 }

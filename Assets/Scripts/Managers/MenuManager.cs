@@ -7,7 +7,8 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
 
-    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _tileCoordinate,_heroAttributesObject, _currentGameStateObject;
+    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _tileCoordinate, _currentGameStateObject;
+    [SerializeField] private GameObject _heroRemainingMovementPointObject, _heroRemainingActionPointObject;
     [SerializeField] private Button _endTurnButton;
     [SerializeField] private GameObject _battlefield;
 
@@ -17,7 +18,8 @@ public class MenuManager : MonoBehaviour
         _tileObject.SetActive(true);
         _tileUnitObject.SetActive(true);
         _tileCoordinate.SetActive(true);
-        _heroAttributesObject.SetActive(true);
+        _heroRemainingMovementPointObject.SetActive(true);
+        _heroRemainingActionPointObject.SetActive(true);
         _endTurnButton.interactable = true;
         _battlefield.SetActive(false);
     }
@@ -45,16 +47,29 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void ShowHeroAttributes(Tile tile)
+    public void ShowRemainingMovementPoint(Tile tile)
     {
         if (tile != null && tile.OccupiedUnit != null)
         {
-            _heroAttributesObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.RemainingMovementPoints.ToString();
-            _heroAttributesObject.SetActive(true);
+            _heroRemainingMovementPointObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.RemainingMovementPoints.ToString();
+            _heroRemainingMovementPointObject.SetActive(true);
         }
         else
         {
-            _heroAttributesObject.SetActive(false);
+            _heroRemainingMovementPointObject.SetActive(false);
+        }
+    }
+
+    public void ShowRemainingActionPoint(Tile tile)
+    {
+        if (tile != null && tile.OccupiedUnit != null)
+        {
+            _heroRemainingActionPointObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.RemainingActionPoints.ToString();
+            _heroRemainingActionPointObject.SetActive(true);
+        }
+        else
+        {
+            _heroRemainingActionPointObject.SetActive(false);
         }
     }
 
