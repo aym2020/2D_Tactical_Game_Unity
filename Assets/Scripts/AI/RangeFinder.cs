@@ -65,46 +65,95 @@ public class RangeFinder
         return rangeTiles;
     }
 
-    private static bool HasLineOfSight(Tile start, Tile end)
+    public static bool HasLineOfSight(Tile origin, Tile target, int ignorePos = 100)
     {
-        int x0 = start.X;
-        int y0 = start.Y;
-        int x1 = end.X;
-        int y1 = end.Y;
+        // Initialize start and end positions
+        int x0 = origin.X;
+        int y0 = origin.Y;
+        int x1 = target.X;
+        int y1 = target.Y;
 
+        // Calculate the differences in x and y
         int dx = Mathf.Abs(x1 - x0);
         int dy = Mathf.Abs(y1 - y0);
+
+        // Determine the direction of the line
         int sx = x0 < x1 ? 1 : -1;
         int sy = y0 < y1 ? 1 : -1;
 
-        int err = dx - dy;
+        // Get the grid size from the GridManager instance
+        int gridSize = GridManager.Instance.GetFieldSize();
 
-        while (true)
+        // Flag to track if the line of sight is clear
+        bool inSight = true;
+
+        // Initialize variables for the Bresenham's line algorithm
+        int i = 2 * dx;
+        int c = 2 * dy;
+        int p = dx - dy;
+        int d = -1 + dx + dy;
+
+        // Move the starting point one step closer to the target
+        for (int m = 0; m < 1; m++)
         {
-            if (x0 == x1 && y0 == y1) break;
-
-            int e2 = 2 * err;
-            if (e2 > -dy)
+            if (p > 0)
             {
-                err -= dy;
                 x0 += sx;
+                p -= c;
             }
-            if (e2 < dx)
+            else if (p < 0)
             {
-                err += dx;
                 y0 += sy;
+                p += i;
             }
-
-            Tile currentTile = GridManager.Instance.GetTileAtPosition(new Vector2(x0, y0));
-            if (currentTile == start || currentTile == end) continue;
-
-            if (currentTile != null && currentTile.isObstacle)
+            else
             {
-                return false;
+                x0 += sx;
+                p -= c;
+                y0 += sy;
+                p += i;
+                d--;
             }
         }
 
-        return true;
+        // Iterate through the points along the line
+        while (d > 0 && inSight)
+        {
+            int tileIndex = y0 * gridSize + x0;
+            Tile tile = GridManager.Instance.GetTileAtPosition(new Vector2(x0, y0));
+
+            // Check if the current tile is not walkable and is not the ignorePos
+            if (tile != null && !tile.Walkable && tileIndex != ignorePos)
+            {
+                inSight = false;
+            }
+            else
+            {
+                // Move to the next point along the line
+                if (p > 0)
+                {
+                    x0 += sx;
+                    p -= c;
+                }
+                else if (p < 0)
+                {
+                    y0 += sy;
+                    p += i;
+                }
+                else
+                {
+                    x0 += sx;
+                    p -= c;
+                    y0 += sy;
+                    p += i;
+                    d--;
+                }
+                d--;
+            }
+        }
+
+        // Return true if the line of sight is clear, false otherwise
+        return inSight;
     }
 
 }

@@ -9,6 +9,9 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private Tile grassTile, mountainTile;
     [SerializeField] private int _fieldSize;
+
+    // getter and setter methods
+    public int GetFieldSize() => _fieldSize;
     
     public Camera _mainCamera;
     public Dictionary<Vector2, Tile> _tiles;

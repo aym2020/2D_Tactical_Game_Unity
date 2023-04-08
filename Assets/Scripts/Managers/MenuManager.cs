@@ -7,13 +7,16 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
 
-    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _heroAttributesObject, _currentGameStateObject;
+    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _tileCoordinate,_heroAttributesObject, _currentGameStateObject;
     [SerializeField] private Button _endTurnButton;
     [SerializeField] private GameObject _battlefield;
 
     private void Awake()
     {
         Instance = this;
+        _tileObject.SetActive(true);
+        _tileUnitObject.SetActive(true);
+        _tileCoordinate.SetActive(true);
         _heroAttributesObject.SetActive(true);
         _endTurnButton.interactable = true;
         _battlefield.SetActive(false);
@@ -25,11 +28,15 @@ public class MenuManager : MonoBehaviour
         {
             _tileObject.SetActive(false);
             _tileUnitObject.SetActive(false);
+            _tileCoordinate.SetActive(false);
             return;
         }
 
         _tileObject.GetComponentInChildren<Text>().text = tile.TileName;
         _tileObject.SetActive(true);
+
+        _tileCoordinate.GetComponentInChildren<Text>().text = "(" + tile.X + "," + tile.Y + ")";
+        _tileCoordinate.SetActive(true);
 
         if (tile.OccupiedUnit)
         {
