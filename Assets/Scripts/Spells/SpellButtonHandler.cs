@@ -6,6 +6,9 @@ public class SpellButtonHandler : MonoBehaviour
     public SpellCaster spellCaster;
     public int spellIndex;
     private Button button;
+    public bool isSpellButtonSelected;
+    public Sprite originalSprite;
+    public Sprite selectedSprite;
 
     private void Start()
     {
@@ -21,6 +24,9 @@ public class SpellButtonHandler : MonoBehaviour
             return;
         }
 
+        // select the button
+        SetSelectedButton(true);
+        
         // Hide the movement range and highlight path
         spellCaster.GetComponent<BaseUnit>().HideHighlightPath();
         spellCaster.GetComponent<BaseUnit>().HideMovementRange();
@@ -39,5 +45,11 @@ public class SpellButtonHandler : MonoBehaviour
     public void SetSpellCaster(SpellCaster newSpellCaster)
     {
         spellCaster = newSpellCaster;
+    }
+
+    public void SetSelectedButton(bool isSelected)
+    {
+        isSpellButtonSelected = isSelected;
+        button.image.sprite = isSelected ? selectedSprite : originalSprite;
     }
 }

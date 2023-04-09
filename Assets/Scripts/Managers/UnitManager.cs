@@ -136,7 +136,7 @@ public class UnitManager : MonoBehaviour
                 }
                 else if (SpawnedHero.SpellRangeTiles.Contains(tile))
                 {
-
+                    
                 }
                 else
                 {

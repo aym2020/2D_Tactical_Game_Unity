@@ -29,7 +29,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 62346549720919638, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
       propertyPath: m_Color.a
-      value: 0.9019608
+      value: 0.39215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 62346549720919638, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 62346549720919638, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 62346549720919638, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1829513557165249725, guid: 6cd69e3d137a209489c31c05c1773d49, type: 3}
       propertyPath: m_RootOrder
@@ -239,4 +251,5 @@ MonoBehaviour:
   tileCollider: {fileID: 2003561877488289431}
   _spriteHighlight: {fileID: 21300000, guid: f90d455c7c2be91478d275961af9bb5a, type: 3}
   _spriteTargetHighlight: {fileID: 0}
+  _spriteMovementHighlight: {fileID: 0}
   OccupiedUnit: {fileID: 0}

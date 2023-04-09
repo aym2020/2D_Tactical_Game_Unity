@@ -68,23 +68,15 @@ public abstract class Tile : MonoBehaviour
             if (availableTiles.Contains(this))
             {
                 UnitManager.Instance.SelectedHero.HideHighlightPath();
-                ResetHighlightSpriteToDefault();
             }
         }
-
-        if (SpellManager.Instance.SelectedSpell != null)
-        {
-            List<Tile> targetableTiles = UnitManager.Instance.SpawnedHero.SpellTargetableTiles;
-            if (targetableTiles.Contains(this))
-            {
-                ResetHighlightSpriteToDefault();
-            }
-        }
+        ResetHighlightSpriteToDefault();
     }
 
     private void OnMouseDown()
     {
         UnitManager.Instance.HandleTileClick(this);
+        ResetHighlightSpriteToDefault();
     }
 
     // Calculate the distance between two tiles
