@@ -49,22 +49,30 @@ public class RangeFinder
         }
     }
 
-    public static List<Tile> GetSpellRangeTiles(Tile originTile, int spellRange)
+    public static (List<Tile> allRangeTiles, List<Tile> lineOfSightTiles) GetSpellRangeTilesWithLineOfSight(Tile originTile, int spellRange)
     {
-        List<Tile> rangeTiles = new List<Tile>();
+        List<Tile> allRangeTiles = new List<Tile>();
+        List<Tile> lineOfSightTiles = new List<Tile>();
 
         foreach (Tile tile in GridManager.Instance._tiles.Values)
         {
             int distance = originTile.CalculateDistance(tile);
-            if (distance <= spellRange && distance > 0 && HasLineOfSight(originTile, tile))
+
+            if (distance <= spellRange && distance > 0 && tile.isObstacle == false)
             {
-                rangeTiles.Add(tile);
+                allRangeTiles.Add(tile);
+
+                if (HasLineOfSight(originTile, tile))
+                {
+                    lineOfSightTiles.Add(tile);
+                    allRangeTiles.Remove(tile);
+                }
             }
         }
 
-        return rangeTiles;
+        return (allRangeTiles, lineOfSightTiles);
     }
-
+    
     public static bool HasLineOfSight(Tile origin, Tile target, int ignorePos = 100)
     {
         // Initialize start and end positions

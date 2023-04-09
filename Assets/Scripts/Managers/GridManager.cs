@@ -7,7 +7,7 @@ public class GridManager : MonoBehaviour
 
     public static GridManager Instance;
 
-    [SerializeField] private Tile grassTile, mountainTile;
+    [SerializeField] private Tile groundTile, mountainTile;
     [SerializeField] private int _fieldSize;
 
     // getter and setter methods
@@ -29,7 +29,7 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < _fieldSize; y++)
             {
-                var randomTile = Random.Range(0, 6) == 3 ? mountainTile : grassTile;
+                var randomTile = Random.Range(0, 6) == 3 ? mountainTile : groundTile;
                 var spawnedTile = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity, transform);
                 spawnedTile.name = $"Tile ({x}, {y})";
 

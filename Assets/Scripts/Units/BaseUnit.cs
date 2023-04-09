@@ -17,7 +17,8 @@ public class BaseUnit : MonoBehaviour
 
     private List<Tile> availableTiles;
     private List<Tile> highlightedPath;
-    private List<Tile> targetableTiles;
+    private List<Tile> spellRangeTiles;
+    private List<Tile> spellTargetableTiles;
 
     public List<Tile> AvailableTiles
     {
@@ -27,9 +28,13 @@ public class BaseUnit : MonoBehaviour
     {
         get { return highlightedPath; }
     }
-    public List<Tile> TargetableTiles
+    public List<Tile> SpellRangeTiles
     {
-        get { return targetableTiles; }
+        get { return spellRangeTiles; }
+    }
+    public List<Tile> SpellTargetableTiles
+    {
+        get { return spellTargetableTiles; }
     }
 
     // Getter and setter methods
@@ -126,39 +131,62 @@ public class BaseUnit : MonoBehaviour
     //Show and hide spell range
     public void ShowSpellRange(Tile OccupiedTile, int spellRange, SpellRangeType spellRangeType)
     {
-        targetableTiles = RangeFinder.GetSpellRangeTiles(OccupiedTile, spellRange);
+        (spellRangeTiles, spellTargetableTiles) = RangeFinder.GetSpellRangeTilesWithLineOfSight(OccupiedTile, spellRange);
 
-        if (!targetableTiles.Contains(OccupiedTile) && spellRangeType == SpellRangeType.SelfTarget)
+        if (!spellRangeTiles.Contains(OccupiedTile) && spellRangeType == SpellRangeType.SelfTarget)
         {
-            targetableTiles.Add(OccupiedTile);
+            spellRangeTiles.Add(OccupiedTile);
         }
 
-        HighlightTargetableTiles();
+        HighlightSpellRangeTiles();
+        HighlightSpellTargetableTiles();
     }
 
     public void HideSpellRange()
     {
-        UnhighlightTargetableTiles();
+        UnhighlightSpellRangeTiles();
+        UnhighlightSpellTargetableTiles();
     }
 
-    public void HighlightTargetableTiles()
+    public void HighlightSpellRangeTiles()
     {
-        foreach (Tile tile in targetableTiles)
+        foreach (Tile tile in spellRangeTiles)
         {
             tile.HighlightSpellRange();
         }
     }
 
-    public void UnhighlightTargetableTiles()
+    public void UnhighlightSpellRangeTiles()
     {
-        if (targetableTiles != null)
+        if (spellRangeTiles != null)
         {
-            foreach (Tile tile in targetableTiles)
+            foreach (Tile tile in spellRangeTiles)
             {
                 tile.UnhighlightSpellRange();
             }
         }
     }
+
+    // Show and hide spell targetable tiles
+    public void HighlightSpellTargetableTiles()
+    {
+        foreach (Tile tile in spellTargetableTiles)
+        {
+            tile.HighlightTargetableTile();
+        }
+    }
+
+    public void UnhighlightSpellTargetableTiles()
+    {
+        if (spellTargetableTiles != null)
+        {
+            foreach (Tile tile in spellTargetableTiles)
+            {
+                tile.UnhighlightTargetableTile();
+            }
+        }
+    }
+    
 
 
 }

@@ -21,6 +21,11 @@ public class MountainTile : Tile
         // Intentionally left empty to avoid highlighting spell range on MountainTile
     }
 
+    public override void HighlightTargetableTile()
+    {
+        // Intentionally left empty to avoid highlighting targetable tile on MountainTile
+    }
+
     public override void UnhighlightMovementRange()
     {
         // Intentionally left empty to avoid unhighlighting movement on MountainTile
@@ -35,4 +40,11 @@ public class MountainTile : Tile
     {
         // Intentionally left empty to avoid unhighlighting spell range on MountainTile
     }
+
+    public override void UnhighlightTargetableTile()
+    {
+        // Intentionally left empty to avoid unhighlighting targetable tile on MountainTile
+    }
+
+
 }

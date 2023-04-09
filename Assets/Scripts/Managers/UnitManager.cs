@@ -19,7 +19,6 @@ public class UnitManager : MonoBehaviour
         SpawnedHero = hero;
     }
 
-    
     [SerializeField] private List<GameObject> spellButtons;
 
     private void Awake()
@@ -192,7 +191,7 @@ public class UnitManager : MonoBehaviour
             SpawnedHero.HideSpellRange();
 
             // Check if the target tile is within the spell range
-            if (SpawnedHero.TargetableTiles.Contains(targetTile))
+            if (SpawnedHero.SpellRangeTiles.Contains(targetTile))
             {
                 // Cast the selected spell on the target tile
                 SpellManager.Instance.Cast(SpellManager.Instance.SelectedSpell, SpawnedHero, targetTile);

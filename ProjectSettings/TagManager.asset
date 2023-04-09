@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ColorTile
+    uniqueID: 3127250359
+    locked: 0
+  - name: Unit
+    uniqueID: 2576491233
+    locked: 0

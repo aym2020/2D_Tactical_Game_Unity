@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrassTile : Tile
+public class GroundTile : Tile
 {
     [SerializeField] private Color _baseColor, _offsetColor; //6EBC5D - 66B056
 

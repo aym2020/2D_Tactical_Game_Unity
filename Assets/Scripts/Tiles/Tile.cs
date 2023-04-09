@@ -11,19 +11,26 @@ public abstract class Tile : MonoBehaviour
     [SerializeField] private GameObject _highlightMovement;
     [SerializeField] private GameObject _highlightPath;
     [SerializeField] private GameObject _highlightSpellRange;
+    [SerializeField] private GameObject _highlightSpellTargetable;
     [SerializeField] private bool _isWalkable;
     [SerializeField] private BoxCollider2D tileCollider;
 
+    public Sprite _spriteHighlight;
+    public Sprite _spriteTargetHighlight;
+    public BaseUnit OccupiedUnit;
+
+    // getters and setters
     public int X { get; private set; }
     public int Y { get; private set; }
-
-    public BaseUnit OccupiedUnit;
+    public GameObject Highlight => _highlight;
     public bool Walkable => _isWalkable && OccupiedUnit == null;
 
     public virtual void Init(int x, int y)
     {
         X = x;
         Y = y;
+        
+        _highlight.GetComponent<SpriteRenderer>().sprite = _spriteHighlight;
     }
 
     void OnMouseEnter()
@@ -31,13 +38,21 @@ public abstract class Tile : MonoBehaviour
         _highlight.SetActive(true);
         MenuManager.Instance.ShowTileInfo(this);
 
-        if (UnitManager.Instance.SelectedHero != null)
+        if (UnitManager.Instance.SelectedHero != null && SpellManager.Instance.SelectedSpell == null)
         {
-            List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(UnitManager.Instance.SelectedHero.OccupiedTile, UnitManager.Instance.SelectedHero.RemainingMovementPoints);
-            if (availableTiles.Contains(this))
+            List<Tile> AvailableTiles = RangeFinder.GetMovementRangeTiles(UnitManager.Instance.SelectedHero.OccupiedTile, UnitManager.Instance.SelectedHero.RemainingMovementPoints);
+            if (AvailableTiles.Contains(this))
             {
                 UnitManager.Instance.SelectedHero.ShowHighlightPath(this);
             }
+        }
+        else if (SpellManager.Instance.SelectedSpell != null)
+        {
+            List<Tile> targetableTiles = UnitManager.Instance.SpawnedHero.SpellTargetableTiles;
+            if (targetableTiles.Contains(this))
+            {
+                ChangeHighlightSpriteToTargetSprite();
+            } 
         }
     }
     void OnMouseExit()
@@ -51,6 +66,15 @@ public abstract class Tile : MonoBehaviour
             if (availableTiles.Contains(this))
             {
                 UnitManager.Instance.SelectedHero.HideHighlightPath();
+            }
+        }
+
+        if (SpellManager.Instance.SelectedSpell != null)
+        {
+            List<Tile> targetableTiles = UnitManager.Instance.SpawnedHero.SpellTargetableTiles;
+            if (targetableTiles.Contains(this))
+            {
+                ResetHighlightSpriteToDefault();
             }
         }
     }
@@ -118,7 +142,29 @@ public abstract class Tile : MonoBehaviour
     {
         _highlightSpellRange.SetActive(false);
     }
+
+    // Highlight  targetable tile
+    public virtual void HighlightTargetableTile()
+    {
+        _highlightSpellTargetable.SetActive(true);
+    }
+
+    public virtual void UnhighlightTargetableTile()
+    {
+        _highlightSpellTargetable.SetActive(false);
+    }
     
+    // change the sprite of the game object _highlight
+    public void ChangeHighlightSpriteToTargetSprite()
+    {
+        Highlight.GetComponent<SpriteRenderer>().sprite = _spriteTargetHighlight;
+    }
+
+    // reset the sprite of the game object _highlight
+    public void ResetHighlightSpriteToDefault()
+    {
+        Highlight.GetComponent<SpriteRenderer>().sprite = _spriteHighlight;
+    }
 
 } 
 
