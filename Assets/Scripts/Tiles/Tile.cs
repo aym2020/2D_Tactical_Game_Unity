@@ -17,6 +17,7 @@ public abstract class Tile : MonoBehaviour
 
     public Sprite _spriteHighlight;
     public Sprite _spriteTargetHighlight;
+    public Sprite _spriteMovementHighlight;
     public BaseUnit OccupiedUnit;
 
     // getters and setters
@@ -44,6 +45,7 @@ public abstract class Tile : MonoBehaviour
             if (AvailableTiles.Contains(this))
             {
                 UnitManager.Instance.SelectedHero.ShowHighlightPath(this);
+                ChangeHighlightSpriteToMovementSprite();
             }
         }
         else if (SpellManager.Instance.SelectedSpell != null)
@@ -66,6 +68,7 @@ public abstract class Tile : MonoBehaviour
             if (availableTiles.Contains(this))
             {
                 UnitManager.Instance.SelectedHero.HideHighlightPath();
+                ResetHighlightSpriteToDefault();
             }
         }
 
@@ -154,16 +157,22 @@ public abstract class Tile : MonoBehaviour
         _highlightSpellTargetable.SetActive(false);
     }
     
-    // change the sprite of the game object _highlight
+    // Change the sprite of the game object _highlight
     public void ChangeHighlightSpriteToTargetSprite()
     {
         Highlight.GetComponent<SpriteRenderer>().sprite = _spriteTargetHighlight;
     }
 
-    // reset the sprite of the game object _highlight
+    // Reset the sprite of the game object _highlight
     public void ResetHighlightSpriteToDefault()
     {
         Highlight.GetComponent<SpriteRenderer>().sprite = _spriteHighlight;
+    }
+
+    // Change the sprite of the game object _highlight
+    public void ChangeHighlightSpriteToMovementSprite()
+    {
+        Highlight.GetComponent<SpriteRenderer>().sprite = _spriteMovementHighlight;
     }
 
 } 

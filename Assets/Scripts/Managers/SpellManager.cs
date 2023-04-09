@@ -57,4 +57,10 @@ public class SpellManager : MonoBehaviour
         }
     }
 
+    public void SetSelectedSpell(BaseSpell spell)
+    {
+        SelectedSpell = spell;
+        //MenuManager.Instance.ShowSelectedHero(hero);
+    }
+
 }

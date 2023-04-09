@@ -104,46 +104,79 @@ public class UnitManager : MonoBehaviour
     {
         if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
 
-        // If selected spell is not null, hide the spell range and try casting the spell
         if (SpellManager.Instance.SelectedSpell != null)
         {
-            if (SpawnedHero != null)
+            HandleSpellCast(tile);
+        }
+        else if (tile.OccupiedUnit != null)
+        {
+            HandleUnitInteraction(tile);
+        }
+        else
+        {
+            HandleEmptyTileInteraction(tile);
+        }
+    }
+
+    private void HandleSpellCast(Tile tile)
+    {
+        SpellRangeType spellRangeType = SpellManager.Instance.SelectedSpell.GetSpellRangeType();
+
+        if (spellRangeType != SpellRangeType.Self)
+        {
+            if (tile.OccupiedUnit != SpawnedHero)
             {
+                if (SpawnedHero.SpellTargetableTiles.Contains(tile))
+                {
+                    SpellManager.Instance.Cast(SpellManager.Instance.SelectedSpell, SpawnedHero, tile);
+                    MenuManager.Instance.ShowRemainingActionPoint(SpawnedHero.OccupiedTile);
+
+                    SpawnedHero.HideSpellRange();
+                    SpellManager.Instance.SetSelectedSpell(null);
+                }
+                else if (SpawnedHero.SpellRangeTiles.Contains(tile))
+                {
+
+                }
+                else
+                {
+                    SpawnedHero.HideSpellRange();
+                    SpellManager.Instance.SetSelectedSpell(null);
+                }
+            }
+            else if (tile.OccupiedUnit == SpawnedHero)
+            {
+                SetSelectedHero(SpawnedHero);
+
+                SpellManager.Instance.SetSelectedSpell(null);
+                SelectedHero.ShowMovementRange();
                 SpawnedHero.HideSpellRange();
             }
-
-            TryCastSpell(tile);
-
-            SpellManager.Instance.SelectedSpell = null;
         }
+    }
 
-        // If the tile is occupied by a unit
-        if (tile.OccupiedUnit != null)
+    private void HandleUnitInteraction(Tile tile)
+    {
+        if (tile.OccupiedUnit.Faction == Faction.Hero)
         {
+            BaseHero selectedHero = SelectedHero;
 
-            // If the unit is a hero
-            if (tile.OccupiedUnit.Faction == Faction.Hero) 
+            if (selectedHero != null)
             {
-                BaseHero selectedHero = SelectedHero;
-
-                // If a hero is already selected
-                if (selectedHero != null)
-                {
-                    SelectedHero.HideMovementRange();
-                    SetSelectedHero(null);
-                }
-                else // If no hero is selected
-                {
-                    SetSelectedHero((BaseHero) tile.OccupiedUnit);
-                    SelectedHero.ShowMovementRange();
-                }
+                SelectedHero.HideMovementRange();
+                SetSelectedHero(null);
             }
             else
             {
-                if(SelectedHero != null)
+                if (SpellManager.Instance.SelectedSpell != null)
                 {
-                    var enemy = (BaseEnemy) tile.OccupiedUnit;
-                    SetSelectedHero(null);
+                    SpawnedHero.HideSpellRange();
+                    SpellManager.Instance.SetSelectedSpell(null);
+                }
+                else
+                {
+                    SetSelectedHero((BaseHero)tile.OccupiedUnit);
+                    SelectedHero.ShowMovementRange();
                 }
             }
         }
@@ -151,57 +184,49 @@ public class UnitManager : MonoBehaviour
         {
             if (SelectedHero != null)
             {
-                SelectedHero.HideMovementRange();
-
-                List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(SelectedHero.OccupiedTile, SelectedHero.RemainingMovementPoints);
-                
-                if (availableTiles.Contains(tile))
-                {
-                    if (SelectedHero.HighlightedPath != null)
-                    {
-                        foreach (Tile pathTile in SelectedHero.HighlightedPath)
-                        {
-                            pathTile.UnhighlightPath();
-                        }
-                    }  
-
-                    int distanceTravelled = tile.SetUnit(SelectedHero);
-                    SelectedHero.RemainingMovementPoints -= distanceTravelled;
-
-                    SetSelectedHero(null);
-
-                    MenuManager.Instance.ShowRemainingMovementPoint(tile);
-                
-                }
-                else
-                {
-                    SetSelectedHero(null);
-                }
+                var enemy = (BaseEnemy)tile.OccupiedUnit;
+                SetSelectedHero(null);
             }
-        }
-    }  
-
-    private void TryCastSpell(Tile targetTile)
-    {
-        if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
-
-        // If selected spell is not null, hide the spell range and try casting the spell
-        if (SpellManager.Instance.SelectedSpell != null && SpawnedHero != null)
-        {
-            SpawnedHero.HideSpellRange();
-
-            // Check if the target tile is within the spell range
-            if (SpawnedHero.SpellRangeTiles.Contains(targetTile))
-            {
-                // Cast the selected spell on the target tile
-                SpellManager.Instance.Cast(SpellManager.Instance.SelectedSpell, SpawnedHero, targetTile);
-
-                // Update the remaining action points in the UI
-                MenuManager.Instance.ShowRemainingActionPoint(SpawnedHero.OccupiedTile);
-            }
-
-            SpellManager.Instance.SelectedSpell = null;
         }
     }
+
+    private void HandleEmptyTileInteraction(Tile tile)
+    {
+        if (SelectedHero != null)
+        {
+            SelectedHero.HideMovementRange();
+
+            List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(SelectedHero.OccupiedTile, SelectedHero.RemainingMovementPoints);
+
+            if (availableTiles.Contains(tile))
+            {
+                if (SelectedHero.HighlightedPath != null)
+                {
+                    foreach (Tile pathTile in SelectedHero.HighlightedPath)
+                    {
+                        pathTile.UnhighlightPath();
+                    }
+                }
+
+                int distanceTravelled = tile.SetUnit(SelectedHero);
+                SelectedHero.RemainingMovementPoints -= distanceTravelled;
+
+                SetSelectedHero(null);
+
+                MenuManager.Instance.ShowRemainingMovementPoint(tile);
+
+            }
+            else
+            {
+                SetSelectedHero(null);
+            }
+        }
+        else
+        {
+            SpawnedHero.HideSpellRange();
+            SpellManager.Instance.SetSelectedSpell(null);
+        }
+    }
+  
 
 }

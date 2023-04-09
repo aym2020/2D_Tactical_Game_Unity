@@ -33,6 +33,7 @@ public class SpellButtonHandler : MonoBehaviour
 
         // Set the selected spell
         SpellManager.Instance.SelectedSpell = selectedSpell;
+        UnitManager.Instance.SetSelectedHero(null);
     }
 
     public void SetSpellCaster(SpellCaster newSpellCaster)
