@@ -10,6 +10,12 @@ public class SpellButtonHandler : MonoBehaviour
     public Sprite originalSprite;
     public Sprite selectedSprite;
 
+    // getters and setters
+    public bool IsSpellButtonSelected => isSpellButtonSelected;
+    public Sprite OriginalSprite => originalSprite;
+    public Sprite SelectedSprite => selectedSprite;
+    public Button Button => button;
+
     private void Start()
     {
         button = GetComponent<Button>();
@@ -65,5 +71,15 @@ public class SpellButtonHandler : MonoBehaviour
             SpellManager.Instance.SetSelectedSpellButton(this);
         }
     }
+
+    public BaseSpell GetSpell()
+    {
+        if (spellCaster != null && spellIndex >= 0 && spellIndex < spellCaster.Spells.Count)
+        {
+            return spellCaster.Spells[spellIndex];
+        }
+        return null;
+    }
+
 
 }

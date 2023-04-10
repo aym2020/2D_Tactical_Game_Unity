@@ -41,6 +41,8 @@ public class UnitManager : MonoBehaviour
 
             randomSpawnTile.SetUnit(SpawnedHero);
 
+            SpellManager.Instance.UpdateSpellButtons();
+
             // Show hero attributes in the UI when a hero is selected
             if (SpawnedHero != null)
             {
@@ -60,6 +62,8 @@ public class UnitManager : MonoBehaviour
             {
                 SpellButtonHandler spellButtonHandler = spellButton.GetComponent<SpellButtonHandler>();
                 spellButtonHandler.SetSpellCaster(heroSpellCaster);
+                SpellManager.Instance.spellButtonHandlers.Add(spellButtonHandler);
+
             }
         }
         GameManager.Instance.ChangeState(GameState.SpawnEnemies);

@@ -9,7 +9,7 @@ public class SpellManager : MonoBehaviour
     
     private List<ScriptableSpell> _spells;
     private SpellButtonHandler selectedSpellButton;
-
+    public List<SpellButtonHandler> spellButtonHandlers;
     public BaseSpell _selectedSpell;
 
     public BaseSpell SelectedSpell
@@ -32,6 +32,7 @@ public class SpellManager : MonoBehaviour
         {
             // Deduct the spell cost from caster's remaining action points
             caster.RemainingActionPoints -= selectedSpell.GetSpellCost();
+            UpdateSpellButtons();
 
             BaseUnit targetUnit = targetTile.OccupiedUnit;
 
@@ -77,7 +78,6 @@ public class SpellManager : MonoBehaviour
         }
     }
 
-
     public void SetSelectedSpellButton(SpellButtonHandler button)
     {
         if (selectedSpellButton != null && selectedSpellButton != button)
@@ -86,10 +86,22 @@ public class SpellManager : MonoBehaviour
         }
         selectedSpellButton = button;
     }
-
-
-
     
+    public void UpdateSpellButtons()
+    {
+        if (UnitManager.Instance.SpawnedHero == null) return;
 
+        int heroActionPoints = UnitManager.Instance.SpawnedHero.RemainingActionPoints;
+
+        foreach (SpellButtonHandler spellButtonHandler in spellButtonHandlers)
+        {
+            BaseSpell spell = spellButtonHandler.GetSpell();
+            if (spell != null)
+            {
+                bool canCastSpell = heroActionPoints >= spell.GetSpellCost();
+                spellButtonHandler.Button.interactable = canCastSpell;
+            }
+        }
+    }
 
 }
