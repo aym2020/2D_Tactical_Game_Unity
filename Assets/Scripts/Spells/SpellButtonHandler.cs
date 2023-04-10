@@ -18,14 +18,21 @@ public class SpellButtonHandler : MonoBehaviour
 
     public void OnButtonClick()
     {
-        
         if (spellCaster == null)
         {
             return;
         }
 
-        // select the button
-        SetSelectedButton(true);
+        BaseSpell selectedSpell = spellCaster.Spells[spellIndex];
+
+        if (isSpellButtonSelected)
+        {
+            SpellManager.Instance.SetSelectedSpell(null, null);
+        }
+        else
+        {
+            SpellManager.Instance.SetSelectedSpell(selectedSpell, this);
+        }
         
         // Hide the movement range and highlight path
         spellCaster.GetComponent<BaseUnit>().HideHighlightPath();
@@ -33,7 +40,6 @@ public class SpellButtonHandler : MonoBehaviour
         spellCaster.GetComponent<BaseUnit>().HideSpellRange();
 
         // Show the spell range
-        BaseSpell selectedSpell = spellCaster.Spells[spellIndex];
         spellCaster.SetActiveSpell(selectedSpell);
         spellCaster.GetComponent<BaseUnit>().ShowSpellRange(spellCaster.GetComponent<BaseUnit>().OccupiedTile, selectedSpell.GetSpellRange(), selectedSpell.GetSpellRangeType());
 
@@ -41,6 +47,7 @@ public class SpellButtonHandler : MonoBehaviour
         SpellManager.Instance.SelectedSpell = selectedSpell;
         UnitManager.Instance.SetSelectedHero(null);
     }
+
 
     public void SetSpellCaster(SpellCaster newSpellCaster)
     {
@@ -51,5 +58,12 @@ public class SpellButtonHandler : MonoBehaviour
     {
         isSpellButtonSelected = isSelected;
         button.image.sprite = isSelected ? selectedSprite : originalSprite;
+
+        // Inform SpellManager that this button has been selected
+        if (isSelected)
+        {
+            SpellManager.Instance.SetSelectedSpellButton(this);
+        }
     }
+
 }

@@ -8,6 +8,7 @@ public class SpellManager : MonoBehaviour
     public static SpellManager Instance;
     
     private List<ScriptableSpell> _spells;
+    private SpellButtonHandler selectedSpellButton;
 
     public BaseSpell _selectedSpell;
 
@@ -57,10 +58,38 @@ public class SpellManager : MonoBehaviour
         }
     }
 
-    public void SetSelectedSpell(BaseSpell spell)
+    public void SetSelectedSpell(BaseSpell newSpell, SpellButtonHandler newButton)
     {
-        SelectedSpell = spell;
-        //MenuManager.Instance.ShowSelectedHero(hero);
+        // If there is a previously selected button, deselect it
+        if (selectedSpellButton != null)
+        {
+            selectedSpellButton.SetSelectedButton(false);
+        }
+
+        // Set the new selected spell and button
+        SelectedSpell = newSpell;
+        selectedSpellButton = newButton;
+
+        // Update the new button's state
+        if (selectedSpellButton != null)
+        {
+            selectedSpellButton.SetSelectedButton(true);
+        }
     }
+
+
+    public void SetSelectedSpellButton(SpellButtonHandler button)
+    {
+        if (selectedSpellButton != null && selectedSpellButton != button)
+        {
+            selectedSpellButton.SetSelectedButton(false);
+        }
+        selectedSpellButton = button;
+    }
+
+
+
+    
+
 
 }

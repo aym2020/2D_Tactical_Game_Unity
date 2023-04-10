@@ -132,7 +132,7 @@ public class UnitManager : MonoBehaviour
                     MenuManager.Instance.ShowRemainingActionPoint(SpawnedHero.OccupiedTile);
 
                     SpawnedHero.HideSpellRange();
-                    SpellManager.Instance.SetSelectedSpell(null);
+                    SpellManager.Instance.SetSelectedSpell(null, null);
                 }
                 else if (SpawnedHero.SpellRangeTiles.Contains(tile))
                 {
@@ -141,14 +141,14 @@ public class UnitManager : MonoBehaviour
                 else
                 {
                     SpawnedHero.HideSpellRange();
-                    SpellManager.Instance.SetSelectedSpell(null);
+                    SpellManager.Instance.SetSelectedSpell(null, null);
                 }
             }
             else if (tile.OccupiedUnit == SpawnedHero)
             {
                 SetSelectedHero(SpawnedHero);
 
-                SpellManager.Instance.SetSelectedSpell(null);
+                SpellManager.Instance.SetSelectedSpell(null, null);
                 SelectedHero.ShowMovementRange();
                 SpawnedHero.HideSpellRange();
             }
@@ -171,7 +171,7 @@ public class UnitManager : MonoBehaviour
                 if (SpellManager.Instance.SelectedSpell != null)
                 {
                     SpawnedHero.HideSpellRange();
-                    SpellManager.Instance.SetSelectedSpell(null);
+                    SpellManager.Instance.SetSelectedSpell(null, null);
                 }
                 else
                 {
@@ -224,9 +224,8 @@ public class UnitManager : MonoBehaviour
         else
         {
             SpawnedHero.HideSpellRange();
-            SpellManager.Instance.SetSelectedSpell(null);
+            SpellManager.Instance.SetSelectedSpell(null, null);
+;
         }
-    }
-  
-
+    } 
 }

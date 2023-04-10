@@ -1450,6 +1450,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellCaster: {fileID: -1986589854213342613, guid: 7ef165a172828c0488c519dc63391acf, type: 3}
   spellIndex: 0
+  isSpellButtonSelected: 0
+  originalSprite: {fileID: 21300000, guid: d9f8251300476dd46a374e655092f998, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 5b79f64237a4cb54eb72ac8a58039a76, type: 3}
 --- !u!1 &997326889
 GameObject:
   m_ObjectHideFlags: 0
@@ -2193,6 +2196,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellCaster: {fileID: -1986589854213342613, guid: 7ef165a172828c0488c519dc63391acf, type: 3}
   spellIndex: 1
+  isSpellButtonSelected: 0
+  originalSprite: {fileID: 21300000, guid: dafdeeffcf78e8b4e9f78a448f47c031, type: 3}
+  selectedSprite: {fileID: 21300000, guid: aa6dc3686e5747844b718b58c80452ff, type: 3}
 --- !u!1 &1347682858
 GameObject:
   m_ObjectHideFlags: 0
@@ -2222,7 +2228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8223fc4d67c3e6c40a5ffeeb6777357a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grassTile: {fileID: -9039275297657941028, guid: 1927ccf1104c8d34180afe63d0a65b1c, type: 3}
+  groundTile: {fileID: -9039275297657941028, guid: 1927ccf1104c8d34180afe63d0a65b1c, type: 3}
   mountainTile: {fileID: 5480578709091384967, guid: 823f01d8cb0a2344e83eb0b80bf89137, type: 3}
   _fieldSize: 10
   _mainCamera: {fileID: 519420031}
