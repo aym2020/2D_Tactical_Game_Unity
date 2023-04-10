@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5482222545728288305}
+  - component: {fileID: 1187734704218178594}
   - component: {fileID: 2508479927792623982}
   - component: {fileID: 4907462212164684909}
   m_Layer: 0
@@ -32,6 +33,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1187734704218178594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790305289469020442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f908a5f29117e2438de11aad5fd5f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spells:
+  - {fileID: -4932316596635012729, guid: d0a41eecf8d75604f830a283c039048e, type: 3}
 --- !u!212 &2508479927792623982
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -99,6 +114,7 @@ MonoBehaviour:
   OccupiedTile: {fileID: 0}
   Faction: 1
   RemainingMovementPoints: 0
+  RemainingActionPoints: 0
   MovementPoints: 3
   ActionPoints: 6
-  HealthPoints: 50
+  HealthPoints: 10

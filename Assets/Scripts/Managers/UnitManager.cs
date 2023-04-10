@@ -7,11 +7,10 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
-
     private List<ScriptableUnit> _units;
-
     public BaseHero SelectedHero;
     public BaseHero SpawnedHero;
+    public List<BaseHero> heroUnits = new List<BaseHero>();
 
     // Setters
     public void SetSpawnedHero(BaseHero hero)
@@ -36,6 +35,7 @@ public class UnitManager : MonoBehaviour
             var randomPrefab = GetRandomUnit<BaseHero>(Faction.Hero);
 
             SetSpawnedHero(Instantiate(randomPrefab));
+            heroUnits.Add(SpawnedHero);
 
             var randomSpawnTile = GridManager.Instance.GetHeroSpawnTile();
 
@@ -43,7 +43,7 @@ public class UnitManager : MonoBehaviour
 
             SpellManager.Instance.UpdateSpellButtons();
 
-            // Show hero attributes in the UI when a hero is selected
+            // Show hero attributes in the UI when a hero is spawned
             if (SpawnedHero != null)
             {
                 MenuManager.Instance.ShowRemainingMovementPoint(SpawnedHero.OccupiedTile);
@@ -54,6 +54,7 @@ public class UnitManager : MonoBehaviour
                 MenuManager.Instance.ShowRemainingMovementPoint(null);
                 MenuManager.Instance.ShowRemainingActionPoint(null);
             }
+
             // Update the SpellButtonHandler with the instantiated hero's SpellCaster component
             SpellCaster heroSpellCaster = SpawnedHero.GetComponent<SpellCaster>();
 
@@ -71,7 +72,7 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        var ennemyCount = 1;
+        var ennemyCount = 2;
 
         for (int i = 0; i < ennemyCount; i++)
         {
@@ -80,9 +81,28 @@ public class UnitManager : MonoBehaviour
             var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
 
             randomSpawnTile.SetUnit(spawnedEnemy);
+
+            // Register the spawned enemy with the EnemyAIManager
+            EnemyAIManager.Instance.RegisterEnemy(spawnedEnemy);
+
         }
 
         GameManager.Instance.ChangeState(GameState.HeroesTurn);
+    }
+
+    public void RemoveEnemy(BaseUnit unit)
+    {
+        if (unit is BaseEnemy enemy)
+        {
+            // Remove the enemy from the tile it occupies
+            enemy.OccupiedTile.RemoveEnemyFromTile();
+
+            // Unregister the enemy from the EnemyAIManager
+            EnemyAIManager.Instance.UnregisterEnemy(enemy);
+
+            // Destroy the enemy game object
+            Destroy(enemy.gameObject);
+        }
     }
 
     private T GetRandomUnit<T>(Faction faction) where T : BaseUnit
@@ -103,6 +123,25 @@ public class UnitManager : MonoBehaviour
         SelectedHero = hero;
         MenuManager.Instance.ShowSelectedHero(hero);
     }
+
+    public void ResetHeroes()
+    {
+        foreach (BaseHero hero in heroUnits)
+        {
+            hero.ResetMovementPoints();
+            hero.ResetActionPoints();
+        }
+    }
+
+    public void ResetEnemies()
+    {
+        foreach (BaseEnemy enemy in EnemyAIManager.Instance.enemyUnits)
+        {
+            enemy.ResetMovementPoints();
+            enemy.ResetActionPoints();
+        }
+    }
+
 
     public void HandleTileClick(Tile tile)
     {
@@ -229,7 +268,6 @@ public class UnitManager : MonoBehaviour
         {
             SpawnedHero.HideSpellRange();
             SpellManager.Instance.SetSelectedSpell(null, null);
-;
         }
     } 
 }

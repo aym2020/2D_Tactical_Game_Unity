@@ -85,6 +85,11 @@ public abstract class Tile : MonoBehaviour
         return Mathf.Abs(X - otherTile.X) + Mathf.Abs(Y - otherTile.Y);
     }
 
+    // Remove enemy from tile when killed
+    public void RemoveEnemyFromTile()
+    {
+        OccupiedUnit = null;
+    }
 
     // Set unit on tile
     public int SetUnit(BaseUnit unit)

@@ -1,15 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BaseUnit : MonoBehaviour
 {
     public string UnitName;
     public Tile OccupiedTile;
     public Faction Faction;
-    public int RemainingMovementPoints;
-    public int RemainingActionPoints;
-
 
     [SerializeField] private int MovementPoints;
     [SerializeField] private int ActionPoints;
@@ -41,21 +39,58 @@ public class BaseUnit : MonoBehaviour
     public int GetMovementPoints() => MovementPoints;
     public int GetActionPoints() => ActionPoints;
     public int GetHealthPoints() => HealthPoints;
-    public int GetRemainingMovementPoints() => RemainingMovementPoints;
-    public int GetRemainingActionPoints() => RemainingActionPoints;
-
-    public void SetMovementPoints(int value) => MovementPoints = value;
-    public void SetActionPoints(int value) => ActionPoints = value;
     public void SetHealthPoints(int value) => HealthPoints = value;
-    public void SetRemainingMovementPoints(int value) => RemainingMovementPoints = value;
-    public void SetRemainingActionPoints(int value) => RemainingActionPoints = value;
+
+    // Events
+    public event EventHandler OnMovementPointsReset;
+    public event EventHandler OnActionPointsReset;
+    
+    // Remaining points
+    public int remainingMovementPoints;
+    public int remainingActionPoints;
+
+    public int RemainingMovementPoints
+    {
+        get => remainingMovementPoints;
+        set
+        {
+            remainingMovementPoints = value;
+            OnRemainingMovementPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public int RemainingActionPoints
+    {
+        get => remainingActionPoints;
+        set
+        {
+            remainingActionPoints = value;
+            OnRemainingActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public event EventHandler OnRemainingMovementPointsChanged;
+    public event EventHandler OnRemainingActionPointsChanged;
     
     private void Awake() 
     {
-        SetRemainingMovementPoints(MovementPoints);
-        SetRemainingActionPoints(ActionPoints);
+        RemainingMovementPoints = MovementPoints;
+        RemainingActionPoints = ActionPoints;
 
         OccupiedTile = GridManager.Instance.GetHeroSpawnTile();
+    }
+
+    // Reset remaining points
+    public void ResetMovementPoints()
+    {
+        RemainingMovementPoints = MovementPoints;
+        OnMovementPointsReset?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void ResetActionPoints()
+    {
+        RemainingActionPoints = ActionPoints;
+        OnActionPointsReset?.Invoke(this, EventArgs.Empty);
     }
 
     // Show and hide movement range

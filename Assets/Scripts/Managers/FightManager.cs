@@ -26,6 +26,9 @@ public class FightManager : MonoBehaviour
         if (newHealthPoints <= 0)
         {
             // Handle unit death (remove from the game, play animation, etc.)
+            Debug.Log($"{target.UnitName} has died.");
+            
+            UnitManager.Instance.RemoveEnemy(target);
         }
     }
 

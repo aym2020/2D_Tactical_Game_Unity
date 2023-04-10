@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class MenuManager : MonoBehaviour
 {
@@ -47,11 +48,26 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    private void UpdateRemainingMovementPoints(object sender, EventArgs e)
+    {
+        BaseUnit unit = (BaseUnit)sender;
+        _heroRemainingMovementPointObject.GetComponentInChildren<Text>().text = unit.RemainingMovementPoints.ToString();
+    }
+
+    private void UpdateRemainingActionPoints(object sender, EventArgs e)
+    {
+        BaseUnit unit = (BaseUnit)sender;
+        _heroRemainingActionPointObject.GetComponentInChildren<Text>().text = unit.RemainingActionPoints.ToString();
+    }
+
     public void ShowRemainingMovementPoint(Tile tile)
     {
         if (tile != null && tile.OccupiedUnit != null)
         {
-            _heroRemainingMovementPointObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.RemainingMovementPoints.ToString();
+            tile.OccupiedUnit.OnRemainingMovementPointsChanged -= UpdateRemainingMovementPoints;
+            tile.OccupiedUnit.OnRemainingMovementPointsChanged += UpdateRemainingMovementPoints;
+
+            UpdateRemainingMovementPoints(tile.OccupiedUnit, EventArgs.Empty);
             _heroRemainingMovementPointObject.SetActive(true);
         }
         else
@@ -64,7 +80,10 @@ public class MenuManager : MonoBehaviour
     {
         if (tile != null && tile.OccupiedUnit != null)
         {
-            _heroRemainingActionPointObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.RemainingActionPoints.ToString();
+            tile.OccupiedUnit.OnRemainingActionPointsChanged -= UpdateRemainingActionPoints;
+            tile.OccupiedUnit.OnRemainingActionPointsChanged += UpdateRemainingActionPoints;
+
+            UpdateRemainingActionPoints(tile.OccupiedUnit, EventArgs.Empty);
             _heroRemainingActionPointObject.SetActive(true);
         }
         else
@@ -72,6 +91,7 @@ public class MenuManager : MonoBehaviour
             _heroRemainingActionPointObject.SetActive(false);
         }
     }
+
 
     public void ShowSelectedHero(BaseHero hero)
     {
