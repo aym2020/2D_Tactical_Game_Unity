@@ -41,10 +41,8 @@ public class SpellButtonHandler : MonoBehaviour
         }
         
         // Hide the movement range and highlight path
-        spellCaster.GetComponent<BaseUnit>().HideHighlightPath();
-        spellCaster.GetComponent<BaseUnit>().HideMovementRange();
-        spellCaster.GetComponent<BaseUnit>().HideSpellRange();
-
+        UnitManager.Instance.HideAllHighlights();
+        
         // Show the spell range
         spellCaster.SetActiveSpell(selectedSpell);
         spellCaster.GetComponent<BaseUnit>().ShowSpellRange(spellCaster.GetComponent<BaseUnit>().OccupiedTile, selectedSpell.GetSpellRange(), selectedSpell.GetSpellRangeType());

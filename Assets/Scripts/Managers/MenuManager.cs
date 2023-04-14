@@ -58,6 +58,7 @@ public class MenuManager : MonoBehaviour
     {
         BaseUnit unit = (BaseUnit)sender;
         _heroRemainingActionPointObject.GetComponentInChildren<Text>().text = unit.RemainingActionPoints.ToString();
+        SpellManager.Instance.UpdateSpellButtons();
     }
 
     public void ShowRemainingMovementPoint(Tile tile)

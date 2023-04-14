@@ -8,12 +8,13 @@ public class BaseUnit : MonoBehaviour
     public string UnitName;
     public Tile OccupiedTile;
     public Faction Faction;
+    private float moveSpeed = 5f;
 
     [SerializeField] private int MovementPoints;
     [SerializeField] private int ActionPoints;
     [SerializeField] private int HealthPoints;
 
-    private List<Tile> availableTiles;
+    public List<Tile> availableTiles;
     private List<Tile> highlightedPath;
     private List<Tile> spellRangeTiles;
     private List<Tile> spellTargetableTiles;
@@ -44,6 +45,8 @@ public class BaseUnit : MonoBehaviour
     // Events
     public event EventHandler OnMovementPointsReset;
     public event EventHandler OnActionPointsReset;
+    public event EventHandler OnRemainingMovementPointsChanged;
+    public event EventHandler OnRemainingActionPointsChanged;
     
     // Remaining points
     public int remainingMovementPoints;
@@ -69,9 +72,6 @@ public class BaseUnit : MonoBehaviour
         }
     }
 
-    public event EventHandler OnRemainingMovementPointsChanged;
-    public event EventHandler OnRemainingActionPointsChanged;
-    
     private void Awake() 
     {
         RemainingMovementPoints = MovementPoints;
@@ -91,6 +91,39 @@ public class BaseUnit : MonoBehaviour
     {
         RemainingActionPoints = ActionPoints;
         OnActionPointsReset?.Invoke(this, EventArgs.Empty);
+    }
+
+    // Movement
+    public IEnumerator MoveToTile(float delay)
+    {
+        if (HighlightedPath != null)
+        {
+            foreach (Tile pathTile in HighlightedPath)
+            {
+                pathTile.UnhighlightPath();
+
+                int distance = pathTile.SetUnit(this);
+
+                float moveTime = distance * (1 / moveSpeed);
+                float startTime = Time.time;
+
+                Vector3 startPosition = transform.position;
+                Vector3 endPosition = pathTile.transform.position;
+
+                while (Time.time < startTime + moveTime)
+                {
+                    transform.position = Vector3.Lerp(startPosition, endPosition, (Time.time - startTime) / moveTime);
+                    yield return null;
+                }
+
+                transform.position = endPosition;
+
+                if (delay > 0)
+                {
+                    yield return new WaitForSeconds(delay);
+                }
+            }
+        }
     }
 
     // Show and hide movement range
@@ -163,7 +196,7 @@ public class BaseUnit : MonoBehaviour
         }
     }
 
-    //Show and hide spell range
+    // Show and hide spell range
     public void ShowSpellRange(Tile OccupiedTile, int spellRange, SpellRangeType spellRangeType)
     {
         (spellRangeTiles, spellTargetableTiles) = RangeFinder.GetSpellRangeTilesWithLineOfSight(OccupiedTile, spellRange);

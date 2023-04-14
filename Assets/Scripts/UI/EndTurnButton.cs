@@ -28,9 +28,9 @@ public class EndTurnButton : MonoBehaviour
     {
         if (_button.interactable == true)
         {
-           GameManager.Instance.ChangeState(GameState.EnemiesTurn);
+            //UnitManager.Instance.HideAllHighlights();
+            GameManager.Instance.ChangeState(GameState.EnemiesTurn);
             _button.interactable = false;
         }
     }
-    
 }

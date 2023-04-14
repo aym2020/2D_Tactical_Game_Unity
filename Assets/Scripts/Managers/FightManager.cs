@@ -23,12 +23,19 @@ public class FightManager : MonoBehaviour
         Debug.Log($"{attacker.UnitName} dealt {damage} damage to {target.UnitName}.");
         Debug.Log($"{target.UnitName} has {newHealthPoints} health points left.");
 
-        if (newHealthPoints <= 0)
+        if (newHealthPoints <= 0 && target.Faction == Faction.Enemy)
         {
             // Handle unit death (remove from the game, play animation, etc.)
             Debug.Log($"{target.UnitName} has died.");
             
             UnitManager.Instance.RemoveEnemy(target);
+        }
+        else if (newHealthPoints <= 0 && target.Faction == Faction.Hero)
+        {
+            // Handle unit death (remove from the game, play animation, etc.)
+            Debug.Log($"{target.UnitName} has died.");
+            
+            UnitManager.Instance.SpawnedHero = null;
         }
     }
 

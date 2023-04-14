@@ -7,12 +7,17 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
-    private List<ScriptableUnit> _units;
+    private List<ScriptableUnit> _scriptableUnits;
+    public List<BaseUnit> allBaseUnits = new List<BaseUnit>();
     public BaseHero SelectedHero;
     public BaseHero SpawnedHero;
-    public List<BaseHero> heroUnits = new List<BaseHero>();
+    public float movementDelay;
 
-    // Setters
+    // getters and setters
+    public List<ScriptableUnit> ScriptableUnits => _scriptableUnits;
+    public List<BaseUnit> AllBaseUnits => allBaseUnits;
+    public float MovementDelay => movementDelay;
+
     public void SetSpawnedHero(BaseHero hero)
     {
         SpawnedHero = hero;
@@ -23,7 +28,7 @@ public class UnitManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
+        _scriptableUnits = Resources.LoadAll<ScriptableUnit>("Units").ToList();
     }
 
     public void SpawnHeroes()
@@ -35,7 +40,8 @@ public class UnitManager : MonoBehaviour
             var randomPrefab = GetRandomUnit<BaseHero>(Faction.Hero);
 
             SetSpawnedHero(Instantiate(randomPrefab));
-            heroUnits.Add(SpawnedHero);
+            
+            allBaseUnits.Add(SpawnedHero);
 
             var randomSpawnTile = GridManager.Instance.GetHeroSpawnTile();
 
@@ -72,7 +78,7 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        var ennemyCount = 2;
+        var ennemyCount = 1;
 
         for (int i = 0; i < ennemyCount; i++)
         {
@@ -85,6 +91,7 @@ public class UnitManager : MonoBehaviour
             // Register the spawned enemy with the EnemyAIManager
             EnemyAIManager.Instance.RegisterEnemy(spawnedEnemy);
 
+            allBaseUnits.Add(spawnedEnemy);
         }
 
         GameManager.Instance.ChangeState(GameState.HeroesTurn);
@@ -102,14 +109,18 @@ public class UnitManager : MonoBehaviour
 
             // Destroy the enemy game object
             Destroy(enemy.gameObject);
+
+            // Check for game state changes (victory or defeat)
+            GameManager.Instance.CheckGameState();
         }
     }
 
+
     private T GetRandomUnit<T>(Faction faction) where T : BaseUnit
     {
-        var filteredUnits = _units.Where(u => u.Faction == faction && u.UnitPrefab is T).ToList();
+        var filteredUnits = _scriptableUnits.Where(u => u.Faction == faction && u.UnitPrefab is T).ToList();
 
-        T selectedUnit = _units.Where(u => u.Faction == faction && u.UnitPrefab is T)
+        T selectedUnit = _scriptableUnits.Where(u => u.Faction == faction && u.UnitPrefab is T)
                      .OrderBy(o => Random.value)
                      .Select(u => u.UnitPrefab)
                      .Cast<T>()
@@ -126,7 +137,7 @@ public class UnitManager : MonoBehaviour
 
     public void ResetHeroes()
     {
-        foreach (BaseHero hero in heroUnits)
+        foreach (BaseHero hero in AllBaseUnits.Where(u => u.Faction == Faction.Hero).Cast<BaseHero>())
         {
             hero.ResetMovementPoints();
             hero.ResetActionPoints();
@@ -135,7 +146,7 @@ public class UnitManager : MonoBehaviour
 
     public void ResetEnemies()
     {
-        foreach (BaseEnemy enemy in EnemyAIManager.Instance.enemyUnits)
+        foreach (BaseEnemy enemy in AllBaseUnits.Where(u => u.Faction == Faction.Enemy).Cast<BaseEnemy>())
         {
             enemy.ResetMovementPoints();
             enemy.ResetActionPoints();
@@ -149,17 +160,21 @@ public class UnitManager : MonoBehaviour
 
         if (SpellManager.Instance.SelectedSpell != null)
         {
+            HideAllHighlights();
             HandleSpellCast(tile);
         }
         else if (tile.OccupiedUnit != null)
         {
+            HideAllHighlights();
             HandleUnitInteraction(tile);
         }
         else
         {
+            HideAllHighlights();
             HandleEmptyTileInteraction(tile);
         }
     }
+
 
     private void HandleSpellCast(Tile tile)
     {
@@ -225,11 +240,14 @@ public class UnitManager : MonoBehaviour
         }
         else
         {
+            tile.OccupiedUnit.ShowMovementRange();
+
             if (SelectedHero != null)
             {
                 var enemy = (BaseEnemy)tile.OccupiedUnit;
-                SetSelectedHero(null);
+                SetSelectedHero(null);      
             }
+            
         }
     }
 
@@ -251,13 +269,16 @@ public class UnitManager : MonoBehaviour
                     }
                 }
 
-                int distanceTravelled = tile.SetUnit(SelectedHero);
+                SelectedHero.HideHighlightPath();
+
+                int distanceTravelled = tile.CalculateDistance(SelectedHero.OccupiedTile);
                 SelectedHero.RemainingMovementPoints -= distanceTravelled;
+                MenuManager.Instance.ShowRemainingMovementPoint(SelectedHero.OccupiedTile);
+
+                var path = SelectedHero.HighlightedPath;
+                StartCoroutine(SelectedHero.MoveToTile(MovementDelay));
 
                 SetSelectedHero(null);
-
-                MenuManager.Instance.ShowRemainingMovementPoint(tile);
-
             }
             else
             {
@@ -269,5 +290,18 @@ public class UnitManager : MonoBehaviour
             SpawnedHero.HideSpellRange();
             SpellManager.Instance.SetSelectedSpell(null, null);
         }
-    } 
+    }
+
+    // Hide all highlights on all units
+    public void HideAllHighlights()
+    {
+        foreach (BaseUnit unit in AllBaseUnits)
+        {
+            unit.HideMovementRange();
+            unit.HideSpellRange();
+            unit.HideHighlightPath();
+        }
+    }
+
+
 }

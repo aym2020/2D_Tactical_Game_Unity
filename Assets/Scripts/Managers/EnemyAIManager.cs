@@ -22,6 +22,7 @@ public class EnemyAIManager : MonoBehaviour
     public void UnregisterEnemy(BaseEnemy enemy)
     {
         enemyUnits.Remove(enemy);
+        UnitManager.Instance.AllBaseUnits.Remove(enemy);
     }
 
     public IEnumerator PerformEnemyTurn(Action onTurnFinished)
@@ -35,7 +36,7 @@ public class EnemyAIManager : MonoBehaviour
             UseEnemySpells(enemy);
 
             // Wait for some time before executing the next enemy's turn
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
         }
 
         // End the enemy turn and switch to the hero's turn

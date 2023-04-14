@@ -109,6 +109,10 @@ public abstract class Tile : MonoBehaviour
         return distance;
     }
 
+    public void ClearUnit(BaseUnit unit)
+    {
+        unit.OccupiedTile.OccupiedUnit = null;
+    }
 
     // Highlight movement range
     public virtual void HighlightMovementRange()

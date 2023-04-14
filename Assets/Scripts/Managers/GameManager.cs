@@ -35,17 +35,19 @@ public class GameManager : MonoBehaviour
             // Hero Turn
             ChangeState(GameState.HeroesTurn);
             yield return new WaitUntil(() => GameState == GameState.EnemiesTurn);
+            CheckGameState();
 
             // Enemy Turn
             ChangeState(GameState.EnemiesTurn);
             yield return new WaitUntil(() => GameState == GameState.HeroesTurn);
+            CheckGameState();
         }
     }
-
 
     public void ChangeState(GameState newState)
     {
         GameState = newState;
+        UnitManager.Instance.HideAllHighlights();
         
         switch (newState)
         {
@@ -69,13 +71,37 @@ public class GameManager : MonoBehaviour
             case GameState.GameLoop:
                 StartGameLoop();
                 break;
+            case GameState.Victory:
+                Debug.Log("Victory!");
+                // Add your custom victory logic here
+                break;
+            case GameState.GameOver:
+                Debug.Log("Game Over!");
+                // Add your custom game over logic here
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
     }
 
-}
+    public bool CheckGameState()
+    {
+        // if hero has health points less than or equal to 0, then hero is dead
+        if (UnitManager.Instance.SpawnedHero == null)
+        {
+            ChangeState(GameState.GameOver);
+            return false;
+        }
 
+        // if all enemies are dead, then player wins
+        if (EnemyAIManager.Instance.enemyUnits.Count == 0)
+        {
+            ChangeState(GameState.Victory);
+            return false;
+        }
+        return true;
+    }
+}
 
 public enum GameState
 {
@@ -84,5 +110,7 @@ public enum GameState
     SpawnEnemies = 2,
     HeroesTurn = 3,
     EnemiesTurn = 4,
-    GameLoop = 5
+    GameLoop = 5,
+    Victory = 6,
+    GameOver = 7
 }
