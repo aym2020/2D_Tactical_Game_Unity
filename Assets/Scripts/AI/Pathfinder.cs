@@ -43,14 +43,16 @@ public class Pathfinder
             openList.Remove(currentNode);
             closedList.Add(currentNode);
 
+            // Check if the current node is the target node
             if (currentNode.Tile == targetTile)
             {
                 return RetracePath(currentNode);
             }
 
+            // Check if the current node is walkable and not occupied by another unit
             foreach (Tile neighbor in GridManager.Instance.GetNeighbors(currentNode.Tile))
             {
-                if (!neighbor.Walkable || (checkForOccupiedTiles && neighbor.OccupiedByUnit()) || closedList.Contains(new Node(neighbor, null, 0, 0)))
+                if (!neighbor.Walkable || (checkForOccupiedTiles && neighbor.OccupiedByUnit()) || ContainsTile(openList, neighbor))
                 {
                     continue;
                 }
@@ -97,5 +99,18 @@ public class Pathfinder
         path.Reverse();
         return path;
     }
+
+    private static bool ContainsTile(List<Node> nodeList, Tile tile)
+    {
+        foreach (Node node in nodeList)
+        {
+            if (node.Tile == tile)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 

@@ -71,6 +71,9 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.ResetEnemies();
                 break;
             case GameState.EnemiesTurn:
+
+                Debug.Log("Enemies Turn");
+                
                 StartCoroutine(EnemyAIManager.Instance.PerformEnemyTurn(() => EnemyAIManager.Instance.EnemiesTurnCompleted = true));
                 break;
             case GameState.GameLoop:

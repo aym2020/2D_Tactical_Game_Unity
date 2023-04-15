@@ -46,8 +46,8 @@ MonoBehaviour:
   spellName: CaC
   spellIcon: {fileID: 21300000, guid: d9f8251300476dd46a374e655092f998, type: 3}
   spellRange: 1
-  spellDamageBottom: 1
-  spellDamageUp: 5
+  spellDamageBottom: 4
+  spellDamageUp: 8
   spellCost: 3
   spellCooldown: 0
   spellDuration: 0

@@ -48,9 +48,11 @@ MonoBehaviour:
   UnitName: Knight
   OccupiedTile: {fileID: 0}
   Faction: 0
-  MovementPoints: 5
+  moveSpeed: 50
+  MovementPoints: 20
   ActionPoints: 6
   HealthPoints: 40
+  availableTiles: []
   remainingMovementPoints: 0
   remainingActionPoints: 0
 --- !u!114 &-1986589854213342613

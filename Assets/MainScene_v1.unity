@@ -974,7 +974,7 @@ MonoBehaviour:
   SpawnedHero: {fileID: 0}
   SelectedEnemy: {fileID: 0}
   _movementDelay: 0.05
-  _enemyCount: 3
+  enemyCount: 4
   spellButtons:
   - {fileID: 976959895}
   - {fileID: 1248386194}

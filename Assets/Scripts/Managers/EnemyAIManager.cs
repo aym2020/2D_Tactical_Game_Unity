@@ -27,7 +27,7 @@ public class EnemyAIManager : MonoBehaviour
     }
 
     public IEnumerator PerformEnemyTurn(Action onTurnFinished)
-    {
+    {       
         foreach (BaseEnemy enemy in enemyUnits)
             {
                 // Call the PerformAI method for each enemy unit

@@ -50,8 +50,6 @@ public class EnemyAI : MonoBehaviour
 
     private void MoveDumbMeleeTowardHero(Action onMovementFinished = null)
     {
-        Debug.Log("MoveDumbMeleeTowardHero");
-
         // Find the most efficient path to the hero
         var enemyOriginTile = enemy.OccupiedTile;
         List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(enemyOriginTile, enemy.GetMovementPoints());
@@ -62,12 +60,14 @@ public class EnemyAI : MonoBehaviour
         // if no available tiles, don't move
         if (availableTiles.Count == 0)
         {
+            onMovementFinished?.Invoke();
             return;
         }
 
         // If the enemy is already next to the hero, don't move
         if (distanceToHero == 1)
         {
+            onMovementFinished?.Invoke();
             return;
         }
 
@@ -81,17 +81,21 @@ public class EnemyAI : MonoBehaviour
 
         // If the path is not empty, move the enemy
         if (path.Count > 0)
-            {
-                int distanceTravelled = path[0].CalculateDistance(enemyOriginTile);
-                enemy.RemainingMovementPoints -= distanceTravelled;
+        {
+            int distanceTravelled = path[0].CalculateDistance(enemyOriginTile);
+            enemy.RemainingMovementPoints -= distanceTravelled;
 
-                StartCoroutine(enemy.MoveToTile(UnitManager.Instance.MovementDelay, path, onMovementFinished));
-            }
+            StartCoroutine(enemy.MoveToTile(UnitManager.Instance.MovementDelay, path, onMovementFinished));
+        }
+        else
+        {
+            onMovementFinished?.Invoke();
+        }
     }
 
+    
     private void UseDumbMeleeCloseCombatSpell()
     {
-        Debug.Log("UseDumbMeleeCloseCombatSpell");
 
         SpellCaster enemySpellCaster = enemy.GetComponent<SpellCaster>();
         BaseSpell closeCombatSpell = null;
