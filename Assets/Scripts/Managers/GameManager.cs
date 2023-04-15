@@ -63,9 +63,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.HeroesTurn:
                 UnitManager.Instance.ResetHeroes();
+                UnitManager.Instance.ResetEnemies();
                 break;
             case GameState.EnemiesTurn:
-                UnitManager.Instance.ResetEnemies();
                 StartCoroutine(EnemyAIManager.Instance.PerformEnemyTurn(() => ChangeState(GameState.HeroesTurn)));
                 break;
             case GameState.GameLoop:

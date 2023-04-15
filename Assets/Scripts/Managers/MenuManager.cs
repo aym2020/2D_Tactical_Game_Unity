@@ -93,7 +93,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-
     public void ShowSelectedHero(BaseHero hero)
     {
         if (hero == null)

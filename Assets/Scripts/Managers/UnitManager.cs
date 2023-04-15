@@ -11,6 +11,7 @@ public class UnitManager : MonoBehaviour
     public List<BaseUnit> allBaseUnits = new List<BaseUnit>();
     public BaseHero SelectedHero;
     public BaseHero SpawnedHero;
+    public BaseEnemy SelectedEnemy;
     public float movementDelay;
 
     // getters and setters
@@ -135,12 +136,19 @@ public class UnitManager : MonoBehaviour
         MenuManager.Instance.ShowSelectedHero(hero);
     }
 
+    public void SetSelectedEnemy(BaseEnemy enemy)
+    {
+        SelectedEnemy = enemy;
+        // MenuManager.Instance.ShowSelectedEnemy(enemy)
+    }
+
     public void ResetHeroes()
     {
         foreach (BaseHero hero in AllBaseUnits.Where(u => u.Faction == Faction.Hero).Cast<BaseHero>())
         {
             hero.ResetMovementPoints();
             hero.ResetActionPoints();
+            UnitManager.Instance.SetSelectedHero(null);
         }
     }
 
@@ -150,9 +158,9 @@ public class UnitManager : MonoBehaviour
         {
             enemy.ResetMovementPoints();
             enemy.ResetActionPoints();
+            UnitManager.Instance.SetSelectedEnemy(null);
         }
     }
-
 
     public void HandleTileClick(Tile tile)
     {
@@ -182,42 +190,68 @@ public class UnitManager : MonoBehaviour
 
         if (spellRangeType != SpellRangeType.Self)
         {
-            if (tile.OccupiedUnit != SpawnedHero)
-            {
-                if (SpawnedHero.SpellTargetableTiles.Contains(tile))
-                {
-                    SpellManager.Instance.Cast(SpellManager.Instance.SelectedSpell, SpawnedHero, tile);
-                    MenuManager.Instance.ShowRemainingActionPoint(SpawnedHero.OccupiedTile);
+            BaseUnit tileOccupant = tile.OccupiedUnit;
 
-                    SpawnedHero.HideSpellRange();
-                    SpellManager.Instance.SetSelectedSpell(null, null);
-                }
-                else if (SpawnedHero.SpellRangeTiles.Contains(tile))
-                {
-                    
-                }
-                else
-                {
-                    SpawnedHero.HideSpellRange();
-                    SpellManager.Instance.SetSelectedSpell(null, null);
-                }
+            if (tileOccupant == SpawnedHero)
+            {
+                HandleHeroTileOccupied();
             }
-            else if (tile.OccupiedUnit == SpawnedHero)
+            else if (tileOccupant != null && tileOccupant.Faction == Faction.Enemy && !SpawnedHero.SpellTargetableTiles.Contains(tile))
             {
-                SetSelectedHero(SpawnedHero);
-
-                SpellManager.Instance.SetSelectedSpell(null, null);
-                SelectedHero.ShowMovementRange();
-                SpawnedHero.HideSpellRange();
+                HandleEnemyTileOccupied(tile, tileOccupant);
+            }
+            else if (SpawnedHero.SpellTargetableTiles.Contains(tile))
+            {
+                CastSpellOnTile(tile);
+            }
+            else
+            {
+                CancelSpellSelection();
             }
         }
     }
 
+    private void HandleHeroTileOccupied()
+    {
+        SetSelectedHero(SpawnedHero);
+        SpellManager.Instance.SetSelectedSpell(null, null);
+        SelectedHero.ShowMovementRange();
+        SpawnedHero.HideSpellRange();
+    }
+
+    private void HandleEnemyTileOccupied(Tile tile, BaseUnit tileOccupant)
+    {
+        if (!SpawnedHero.SpellTargetableTiles.Contains(tile))
+        {
+            SetSelectedEnemy((BaseEnemy)tileOccupant);
+            SpellManager.Instance.SetSelectedSpell(null, null);
+            SelectedEnemy.ShowMovementRange();
+            SpawnedHero.HideSpellRange();
+        }
+    }
+
+    private void CastSpellOnTile(Tile tile)
+    {
+        SpellManager.Instance.Cast(SpellManager.Instance.SelectedSpell, SpawnedHero, tile);
+        MenuManager.Instance.ShowRemainingActionPoint(SpawnedHero.OccupiedTile);
+
+        SpawnedHero.HideSpellRange();
+        SpellManager.Instance.SetSelectedSpell(null, null);
+    }
+
+    private void CancelSpellSelection()
+    {
+        SpawnedHero.HideSpellRange();
+        SpellManager.Instance.SetSelectedSpell(null, null);
+    }
+
     private void HandleUnitInteraction(Tile tile)
     {
+        // If the tile is occupied by a hero
         if (tile.OccupiedUnit.Faction == Faction.Hero)
         {
             BaseHero selectedHero = SelectedHero;
+            SetSelectedEnemy(null);
 
             if (selectedHero != null)
             {
@@ -238,16 +272,25 @@ public class UnitManager : MonoBehaviour
                 }
             }
         }
+        // If the tile is occupied by an enemy
         else
         {
-            tile.OccupiedUnit.ShowMovementRange();
-
-            if (SelectedHero != null)
+            if (SelectedEnemy != null)
             {
-                var enemy = (BaseEnemy)tile.OccupiedUnit;
-                SetSelectedHero(null);      
+                SelectedEnemy.HideMovementRange();
+                SetSelectedEnemy(null);
             }
+            else 
+            {
+                SetSelectedEnemy((BaseEnemy)tile.OccupiedUnit);
             
+                SelectedEnemy.ShowMovementRange();
+
+                if (SelectedHero != null)
+                {
+                    SetSelectedHero(null);      
+                }
+            }
         }
     }
 

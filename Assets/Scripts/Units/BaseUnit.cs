@@ -8,7 +8,7 @@ public class BaseUnit : MonoBehaviour
     public string UnitName;
     public Tile OccupiedTile;
     public Faction Faction;
-    private float moveSpeed = 5f;
+    public float moveSpeed = 50f;
 
     [SerializeField] private int MovementPoints;
     [SerializeField] private int ActionPoints;
