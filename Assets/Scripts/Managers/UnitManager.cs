@@ -12,12 +12,14 @@ public class UnitManager : MonoBehaviour
     public BaseHero SelectedHero;
     public BaseHero SpawnedHero;
     public BaseEnemy SelectedEnemy;
-    public float movementDelay;
+    public float _movementDelay;
+    public int _enemyCount;
 
     // getters and setters
     public List<ScriptableUnit> ScriptableUnits => _scriptableUnits;
     public List<BaseUnit> AllBaseUnits => allBaseUnits;
-    public float MovementDelay => movementDelay;
+    public float MovementDelay => _movementDelay;
+    public int EnemyCount => _enemyCount;
 
     public void SetSpawnedHero(BaseHero hero)
     {
@@ -79,9 +81,7 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        var ennemyCount = 1;
-
-        for (int i = 0; i < ennemyCount; i++)
+        for (int i = 0; i < EnemyCount; i++)
         {
             var randomPrefab = GetRandomUnit<BaseEnemy>(Faction.Enemy);
             var spawnedEnemy = Instantiate(randomPrefab);
@@ -278,7 +278,8 @@ public class UnitManager : MonoBehaviour
             if (SelectedEnemy != null)
             {
                 SelectedEnemy.HideMovementRange();
-                SetSelectedEnemy(null);
+                SetSelectedEnemy((BaseEnemy)tile.OccupiedUnit);
+                SelectedEnemy.ShowMovementRange();
             }
             else 
             {
