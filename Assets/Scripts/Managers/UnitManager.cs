@@ -13,13 +13,13 @@ public class UnitManager : MonoBehaviour
     public BaseHero SpawnedHero;
     public BaseEnemy SelectedEnemy;
     public float _movementDelay;
-    public int _enemyCount;
+    [SerializeField] private int enemyCount;
 
     // getters and setters
     public List<ScriptableUnit> ScriptableUnits => _scriptableUnits;
     public List<BaseUnit> AllBaseUnits => allBaseUnits;
     public float MovementDelay => _movementDelay;
-    public int EnemyCount => _enemyCount;
+    public int EnemyCount => enemyCount;
 
     public void SetSpawnedHero(BaseHero hero)
     {
@@ -81,21 +81,24 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
+        Debug.Log("Spawning " + EnemyCount + " enemies");
+
         for (int i = 0; i < EnemyCount; i++)
         {
             var randomPrefab = GetRandomUnit<BaseEnemy>(Faction.Enemy);
             var spawnedEnemy = Instantiate(randomPrefab);
+            spawnedEnemy.name = randomPrefab.name + " " + i;
             var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
 
             randomSpawnTile.SetUnit(spawnedEnemy);
-
+            
             // Register the spawned enemy with the EnemyAIManager
             EnemyAIManager.Instance.RegisterEnemy(spawnedEnemy);
 
             allBaseUnits.Add(spawnedEnemy);
         }
 
-        GameManager.Instance.ChangeState(GameState.HeroesTurn);
+        GameManager.Instance.ChangeState(GameState.GameLoop);
     }
 
     public void RemoveEnemy(BaseUnit unit)
@@ -320,7 +323,7 @@ public class UnitManager : MonoBehaviour
                 MenuManager.Instance.ShowRemainingMovementPoint(SelectedHero.OccupiedTile);
 
                 var path = SelectedHero.HighlightedPath;
-                StartCoroutine(SelectedHero.MoveToTile(MovementDelay));
+                StartCoroutine(SelectedHero.MoveToTile(MovementDelay, path));
 
                 SetSelectedHero(null);
             }

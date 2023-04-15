@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState GameState;
+    public bool PlayerTurnCompleted { get; set; }
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGameLoop()
     {
+        Debug.Log("Starting Game Loop");
         StartCoroutine(GameLoop());
     }
 
@@ -34,18 +36,21 @@ public class GameManager : MonoBehaviour
         {
             // Hero Turn
             ChangeState(GameState.HeroesTurn);
-            yield return new WaitUntil(() => GameState == GameState.EnemiesTurn);
+            yield return new WaitUntil(() => GameManager.Instance.PlayerTurnCompleted);
             CheckGameState();
 
             // Enemy Turn
             ChangeState(GameState.EnemiesTurn);
-            yield return new WaitUntil(() => GameState == GameState.HeroesTurn);
+            yield return new WaitUntil(() => EnemyAIManager.Instance.EnemiesTurnCompleted);
+            GameManager.Instance.PlayerTurnCompleted = false; // Add this line
+            EnemyAIManager.Instance.EnemiesTurnCompleted = false;
             CheckGameState();
         }
     }
 
     public void ChangeState(GameState newState)
     {
+        Debug.Log($"Changing state from {GameState} to {newState}");
         GameState = newState;
         UnitManager.Instance.HideAllHighlights();
         
@@ -59,14 +64,13 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.SpawnEnemies:
                 UnitManager.Instance.SpawnEnemies();
-                ChangeState(GameState.GameLoop);
                 break;
             case GameState.HeroesTurn:
                 UnitManager.Instance.ResetHeroes();
                 UnitManager.Instance.ResetEnemies();
                 break;
             case GameState.EnemiesTurn:
-                StartCoroutine(EnemyAIManager.Instance.PerformEnemyTurn(() => ChangeState(GameState.HeroesTurn)));
+                StartCoroutine(EnemyAIManager.Instance.PerformEnemyTurn(() => EnemyAIManager.Instance.EnemiesTurnCompleted = true));
                 break;
             case GameState.GameLoop:
                 StartGameLoop();

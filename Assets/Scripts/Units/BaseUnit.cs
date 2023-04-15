@@ -18,7 +18,7 @@ public class BaseUnit : MonoBehaviour
     private List<Tile> highlightedPath;
     private List<Tile> spellRangeTiles;
     private List<Tile> spellTargetableTiles;
-
+    
     public List<Tile> AvailableTiles
     {
         get { return availableTiles; }
@@ -94,11 +94,11 @@ public class BaseUnit : MonoBehaviour
     }
 
     // Movement
-    public IEnumerator MoveToTile(float delay)
+    public IEnumerator MoveToTile(float delay, List<Tile> path)
     {
-        if (HighlightedPath != null)
+        if (path != null)
         {
-            foreach (Tile pathTile in HighlightedPath)
+            foreach (Tile pathTile in path)
             {
                 pathTile.UnhighlightPath();
 

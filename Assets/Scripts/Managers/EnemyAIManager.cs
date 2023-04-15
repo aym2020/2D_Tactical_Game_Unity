@@ -8,6 +8,7 @@ public class EnemyAIManager : MonoBehaviour
     public static EnemyAIManager Instance;
 
     public List<BaseEnemy> enemyUnits = new List<BaseEnemy>();
+    public bool EnemiesTurnCompleted { get; set; }
 
     private void Awake()
     {
@@ -27,8 +28,12 @@ public class EnemyAIManager : MonoBehaviour
 
     public IEnumerator PerformEnemyTurn(Action onTurnFinished)
     {
+        Debug.Log("PerformEnemyTurn");
+
         foreach (BaseEnemy enemy in enemyUnits)
         {
+            Debug.Log("PerformEnemyTurn of " + enemy.name + "");
+
             // Move the enemy randomly
             MoveEnemyRandomly(enemy);
 
@@ -41,14 +46,34 @@ public class EnemyAIManager : MonoBehaviour
 
         // End the enemy turn and switch to the hero's turn
         onTurnFinished?.Invoke();
+        EnemiesTurnCompleted = true;
+
+        Debug.Log("Enemy turn finished");
     }
 
     private void MoveEnemyRandomly(BaseEnemy enemy)
     {
-        List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(enemy.OccupiedTile, enemy.GetMovementPoints());
-        Tile randomTile = availableTiles[UnityEngine.Random.Range(0, availableTiles.Count)];
-        int distanceTravelled = randomTile.SetUnit(enemy);
+        Debug.Log("MoveEnemyRandomly");
+
+        var enemyOriginTile = enemy.OccupiedTile;
+        
+        List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(enemyOriginTile, enemy.GetMovementPoints());
+
+        if (availableTiles.Count == 0)
+        {
+            Debug.Log("No available tiles to move to");
+            return;
+        }
+        
+        Tile randomDestinationTile = availableTiles[UnityEngine.Random.Range(0, availableTiles.Count)];
+        
+        var path = Pathfinder.GetPath(enemyOriginTile, randomDestinationTile);
+        int distanceTravelled = randomDestinationTile.CalculateDistance(enemyOriginTile);
         enemy.RemainingMovementPoints -= distanceTravelled;
+
+        // MenuManager.Instance.ShowRemainingMovementPoint(enemy.OccupiedTile);
+
+        StartCoroutine(enemy.MoveToTile(UnitManager.Instance.MovementDelay, path));
     }
 
     private void UseEnemySpells(BaseEnemy enemy)
