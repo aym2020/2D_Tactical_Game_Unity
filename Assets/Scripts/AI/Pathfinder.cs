@@ -20,7 +20,7 @@ public class Pathfinder
         }
     }
 
-    public static List<Tile> GetPath(Tile startTile, Tile targetTile)
+    public static List<Tile> GetPath(Tile startTile, Tile targetTile, bool checkForOccupiedTiles = true)
     {
         List<Node> openList = new List<Node>();
         HashSet<Node> closedList = new HashSet<Node>();
@@ -50,7 +50,7 @@ public class Pathfinder
 
             foreach (Tile neighbor in GridManager.Instance.GetNeighbors(currentNode.Tile))
             {
-                if (!neighbor.Walkable || closedList.Contains(new Node(neighbor, null, 0, 0)))
+                if (!neighbor.Walkable || (checkForOccupiedTiles && neighbor.OccupiedByUnit()) || closedList.Contains(new Node(neighbor, null, 0, 0)))
                 {
                     continue;
                 }

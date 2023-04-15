@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
 
     public void StartGameLoop()
     {
-        Debug.Log("Starting Game Loop");
         StartCoroutine(GameLoop());
     }
 
@@ -50,8 +49,10 @@ public class GameManager : MonoBehaviour
 
     public void ChangeState(GameState newState)
     {
-        Debug.Log($"Changing state from {GameState} to {newState}");
         GameState = newState;
+        
+        Debug.Log("Game State: " + GameState);
+
         UnitManager.Instance.HideAllHighlights();
         
         switch (newState)

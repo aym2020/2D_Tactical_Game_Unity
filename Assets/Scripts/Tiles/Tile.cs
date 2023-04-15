@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Tile : MonoBehaviour
@@ -82,7 +83,8 @@ public abstract class Tile : MonoBehaviour
     // Calculate the distance between two tiles
     public int CalculateDistance(Tile otherTile)
     {
-        return Mathf.Abs(X - otherTile.X) + Mathf.Abs(Y - otherTile.Y);
+        int distance = Mathf.Abs(X - otherTile.X) + Mathf.Abs(Y - otherTile.Y);
+        return distance;
     }
 
     // Remove enemy from tile when killed
@@ -112,6 +114,11 @@ public abstract class Tile : MonoBehaviour
     public void ClearUnit(BaseUnit unit)
     {
         unit.OccupiedTile.OccupiedUnit = null;
+    }
+
+    public bool OccupiedByUnit()
+    {
+        return UnitManager.Instance.AllBaseUnits.Any(unit => unit.OccupiedTile == this);
     }
 
     // Highlight movement range

@@ -81,17 +81,18 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        Debug.Log("Spawning " + EnemyCount + " enemies");
-
         for (int i = 0; i < EnemyCount; i++)
         {
             var randomPrefab = GetRandomUnit<BaseEnemy>(Faction.Enemy);
             var spawnedEnemy = Instantiate(randomPrefab);
+            
             spawnedEnemy.name = randomPrefab.name + " " + i;
+            spawnedEnemy.UnitName = spawnedEnemy.name;
+
             var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
 
             randomSpawnTile.SetUnit(spawnedEnemy);
-            
+
             // Register the spawned enemy with the EnemyAIManager
             EnemyAIManager.Instance.RegisterEnemy(spawnedEnemy);
 

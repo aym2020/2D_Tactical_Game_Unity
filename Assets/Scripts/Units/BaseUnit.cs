@@ -41,6 +41,8 @@ public class BaseUnit : MonoBehaviour
     public int GetActionPoints() => ActionPoints;
     public int GetHealthPoints() => HealthPoints;
     public void SetHealthPoints(int value) => HealthPoints = value;
+    public string GetUnitName() => UnitName;
+    public void SetUnitName(string value) => UnitName = value;
 
     // Events
     public event EventHandler OnMovementPointsReset;
@@ -94,7 +96,7 @@ public class BaseUnit : MonoBehaviour
     }
 
     // Movement
-    public IEnumerator MoveToTile(float delay, List<Tile> path)
+    public IEnumerator MoveToTile(float delay, List<Tile> path, Action onMovementFinished = null)
     {
         if (path != null)
         {
@@ -124,6 +126,7 @@ public class BaseUnit : MonoBehaviour
                 }
             }
         }
+        onMovementFinished?.Invoke();
     }
 
     // Show and hide movement range
