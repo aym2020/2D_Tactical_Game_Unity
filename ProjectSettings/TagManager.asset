@@ -47,3 +47,6 @@ TagManager:
   - name: Unit
     uniqueID: 2576491233
     locked: 0
+  - name: Anim&Popup
+    uniqueID: 1666372611
+    locked: 0

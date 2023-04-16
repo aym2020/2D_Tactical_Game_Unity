@@ -41,6 +41,8 @@ public class GridManager : MonoBehaviour
 
         _mainCamera.transform.position = new Vector3((float)_fieldSize / 2 - 0.5f, (float)_fieldSize / 2 - 0.5f + 0.5f, -10);
 
+        AdjustCameraSize();
+
         GameManager.Instance.ChangeState(GameState.SpawnHeroes);
     }
 
@@ -98,6 +100,14 @@ public class GridManager : MonoBehaviour
         }
 
         return neighbors;
+    }
+
+    private void AdjustCameraSize()
+    {
+        float orthographicSize = (float)(_fieldSize * 0.6);
+
+        _mainCamera.orthographicSize = orthographicSize;
+        _mainCamera.transform.position = new Vector3((float)((float)_fieldSize * 0.45), (float)((float)_fieldSize * 0.5), -10);
     }
 
 }

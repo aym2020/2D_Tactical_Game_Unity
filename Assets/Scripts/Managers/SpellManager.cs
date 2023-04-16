@@ -40,8 +40,6 @@ public class SpellManager : MonoBehaviour
             {
                 FightManager.Instance.SetAttackerAndTarget(caster, targetUnit);
 
-                // Debug.Log(caster + " casting " + selectedSpell.GetSpellName() + " on " + targetUnit.UnitName);
-
                 FightManager.Instance.ApplyDamage(caster, targetUnit, selectedSpell.GetSpellDamageBottom(), selectedSpell.GetSpellDamageUp());
             }
 
@@ -49,8 +47,6 @@ public class SpellManager : MonoBehaviour
             else if (targetUnit == null)
             {
                 FightManager.Instance.SetAttackerAndTarget(caster, null);
-
-                // Debug.Log(caster + " casting " + selectedSpell.GetSpellName() + " on " + targetTile);
             }
         }
         else

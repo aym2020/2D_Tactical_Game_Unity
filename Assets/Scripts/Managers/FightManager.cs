@@ -23,6 +23,9 @@ public class FightManager : MonoBehaviour
         Debug.Log($"{attacker.UnitName} dealt {damage} damage to {target.UnitName}.");
         Debug.Log($"{target.UnitName} has {newHealthPoints} health points left.");
 
+        // Show damage popup
+        AnimationManager.Instance.CreateDamagePopup(target.transform.position, damage, false);
+
         if (newHealthPoints <= 0 && target.Faction == Faction.Enemy)
         {
             // Handle unit death (remove from the game, play animation, etc.)

@@ -288,7 +288,7 @@ MonoBehaviour:
   _isWalkable: 1
   tileCollider: {fileID: 4299764382326043533}
   _spriteHighlight: {fileID: 21300000, guid: 6de9e6f496c5cd94f889bb8ef2a21f32, type: 3}
-  _spriteTargetHighlight: {fileID: 21300000, guid: 2bad4f69e230ae242ad14065b309f882, type: 3}
+  _spriteTargetHighlight: {fileID: 21300000, guid: d5dfecc796959764ea727f5ede77b33f, type: 3}
   _spriteMovementHighlight: {fileID: 21300000, guid: 2766798ceb20aa840abd10fc1d983635, type: 3}
   OccupiedUnit: {fileID: 0}
   _baseColor: {r: 0.8207547, g: 0.71089077, b: 0.4212175, a: 0.78431374}
