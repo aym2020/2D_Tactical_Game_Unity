@@ -6,6 +6,8 @@ public class AnimationManager : MonoBehaviour
     public static AnimationManager Instance;
 
     [SerializeField] private Transform damagePopupPrefab;
+    [SerializeField] private Transform spellAnimationPrefab;
+
 
     public void Start()
     {
@@ -37,4 +39,11 @@ public class AnimationManager : MonoBehaviour
         mouseWorldPosition.z = 0f;
         return mouseWorldPosition;
     }
+
+    // Animation for when a spell is cast
+    public void CreateSpellAnimation(Vector3 position)
+    {
+        Transform spellAnimationTransform = Instantiate(spellAnimationPrefab, position, Quaternion.identity);
+    }
+
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7634486513472420672
+--- !u!1 &2712670762469586244
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3933890373811556372}
-  - component: {fileID: 1655664882223527371}
-  - component: {fileID: -1986589854213342613}
-  - component: {fileID: 4392830368341232023}
+  - component: {fileID: 2627796762751444409}
+  - component: {fileID: -5313321068856517482}
+  - component: {fileID: 256432451985068750}
+  - component: {fileID: 8747161847799072583}
   m_Layer: 0
-  m_Name: Knight
+  m_Name: AnimationExplosionPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3933890373811556372
+--- !u!4 &2627796762751444409
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7634486513472420672}
+  m_GameObject: {fileID: 2712670762469586244}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,50 +33,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1655664882223527371
+--- !u!114 &-5313321068856517482
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7634486513472420672}
+  m_GameObject: {fileID: 2712670762469586244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6f0261e3aa86e3419e2528c5bf59dd7, type: 3}
+  m_Script: {fileID: 11500000, guid: 53eed2357ca3a0b48ba35bbaf33173e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitName: Knight
-  OccupiedTile: {fileID: 0}
-  Faction: 0
-  moveSpeed: 50
-  MovementPoints: 20
-  ActionPoints: 6
-  HealthPoints: 40
-  availableTiles: []
-  remainingMovementPoints: 0
-  remainingActionPoints: 0
---- !u!114 &-1986589854213342613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7634486513472420672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f908a5f29117e2438de11aad5fd5f60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spells:
-  - {fileID: -4932316596635012729, guid: d0a41eecf8d75604f830a283c039048e, type: 3}
-  - {fileID: -6110600974421880844, guid: 0fcbbf6564844db4488dcf24df9cd323, type: 3}
---- !u!212 &4392830368341232023
+--- !u!212 &256432451985068750
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7634486513472420672}
+  m_GameObject: {fileID: 2712670762469586244}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -107,17 +82,36 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1718476063
-  m_SortingLayer: 2
-  m_SortingOrder: 1
-  m_Sprite: {fileID: -826359464625948733, guid: 20778d1c115fb054fb8ada49d735a459, type: 3}
+  m_SortingLayerID: 1666372611
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.9153846, y: 1.0269231}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &8747161847799072583
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2712670762469586244}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: aa8ff278b0d1c20499bc6b422161cecb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

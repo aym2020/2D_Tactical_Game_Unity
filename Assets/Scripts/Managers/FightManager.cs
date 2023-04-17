@@ -16,6 +16,10 @@ public class FightManager : MonoBehaviour
 
     public void ApplyDamage(BaseUnit attacker, BaseUnit target, int minDamage, int maxDamage)
     {
+        // Show spell animation
+        AnimationManager.Instance.CreateSpellAnimation(target.transform.position);
+
+        // Calculate damage
         int damage = Random.Range(minDamage, maxDamage);
         int newHealthPoints = target.GetHealthPoints() - damage;
         target.SetHealthPoints(newHealthPoints);
