@@ -14,8 +14,16 @@ public enum SpellRangeType
     Self = 0,
     Target = 1,
     SelfTarget = 2,
-    Area = 3,
+    NoLineOfSight = 3,
     Line = 4
+}
+
+public enum SpellTargetType
+{
+    OneTile = 0,
+    Cross = 1,
+    Circle = 2,
+    Inline = 3
 }
 
 public enum SpellType

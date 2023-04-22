@@ -49,7 +49,7 @@ public class RangeFinder
         }
     }
 
-    public static (List<Tile> allRangeTiles, List<Tile> lineOfSightTiles) GetSpellRangeTilesWithLineOfSight(Tile originTile, int spellRange)
+    public static (List<Tile> allRangeTiles, List<Tile> lineOfSightTiles) GetSpellRangeTilesWithLineOfSight(Tile originTile, int spellRange, int spellMinRange,  SpellRangeType spellRangeType)
     {
         List<Tile> allRangeTiles = new List<Tile>();
         List<Tile> lineOfSightTiles = new List<Tile>();
@@ -58,11 +58,17 @@ public class RangeFinder
         {
             int distance = originTile.CalculateDistance(tile);
 
-            if (distance <= spellRange && distance > 0 && tile.isObstacle == false)
+            if (distance <= spellRange && distance >= spellMinRange && tile.isObstacle == false)
             {
+                if (spellRangeType == SpellRangeType.Line &&
+                !(originTile.X == tile.X || originTile.Y == tile.Y))
+                {
+                    continue;
+                }
+
                 allRangeTiles.Add(tile);
 
-                if (HasLineOfSight(originTile, tile))
+                if (HasLineOfSight(originTile, tile) && spellRangeType != SpellRangeType.NoLineOfSight)
                 {
                     lineOfSightTiles.Add(tile);
                     allRangeTiles.Remove(tile);

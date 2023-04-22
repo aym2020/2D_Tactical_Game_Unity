@@ -200,9 +200,9 @@ public class BaseUnit : MonoBehaviour
     }
 
     // Show and hide spell range
-    public void ShowSpellRange(Tile OccupiedTile, int spellRange, SpellRangeType spellRangeType)
+    public void ShowSpellRange(Tile OccupiedTile, int spellRange, int spellMinRange, SpellRangeType spellRangeType)
     {
-        (spellRangeTiles, spellTargetableTiles) = RangeFinder.GetSpellRangeTilesWithLineOfSight(OccupiedTile, spellRange);
+        (spellRangeTiles, spellTargetableTiles) = RangeFinder.GetSpellRangeTilesWithLineOfSight(OccupiedTile, spellRange, spellMinRange, spellRangeType);
 
         if (!spellRangeTiles.Contains(OccupiedTile) && spellRangeType == SpellRangeType.SelfTarget)
         {

@@ -45,7 +45,7 @@ public class SpellButtonHandler : MonoBehaviour
         
         // Show the spell range
         spellCaster.SetActiveSpell(selectedSpell);
-        spellCaster.GetComponent<BaseUnit>().ShowSpellRange(spellCaster.GetComponent<BaseUnit>().OccupiedTile, selectedSpell.GetSpellRange(), selectedSpell.GetSpellRangeType());
+        spellCaster.GetComponent<BaseUnit>().ShowSpellRange(spellCaster.GetComponent<BaseUnit>().OccupiedTile, selectedSpell.GetSpellRange(), selectedSpell.GetSpellMinRange(), selectedSpell.GetSpellRangeType());
 
         // Set the selected spell
         SpellManager.Instance.SelectedSpell = selectedSpell;
