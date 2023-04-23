@@ -8,8 +8,8 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
 
-    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _tileCoordinate, _currentGameStateObject;
-    [SerializeField] private GameObject _heroRemainingMovementPointObject, _heroRemainingActionPointObject;
+    [SerializeField] private GameObject _selectedUnitObject, _tileObject, _tileUnitObject, _tileCoordinate, _currentGameStateObject;
+    [SerializeField] private GameObject _heroRemainingMovementPointObject, _heroRemainingActionPointObject, _heroRemainingHealthPointObject;
     [SerializeField] private Button _endTurnButton;
     [SerializeField] private GameObject _battlefield;
 
@@ -21,6 +21,7 @@ public class MenuManager : MonoBehaviour
         _tileCoordinate.SetActive(true);
         _heroRemainingMovementPointObject.SetActive(true);
         _heroRemainingActionPointObject.SetActive(true);
+        _heroRemainingHealthPointObject.SetActive(true);
         _endTurnButton.interactable = true;
         _battlefield.SetActive(false);
     }
@@ -61,6 +62,12 @@ public class MenuManager : MonoBehaviour
         SpellManager.Instance.UpdateSpellButtons();
     }
 
+    private void UpdateRemainingHealthPoints(object sender, EventArgs e)
+    {
+        BaseUnit unit = (BaseUnit)sender;
+        _heroRemainingHealthPointObject.GetComponentInChildren<Text>().text = unit.RemainingHealthPoints.ToString();
+    }
+
     public void ShowRemainingMovementPoint(Tile tile)
     {
         if (tile != null && tile.OccupiedUnit != null)
@@ -93,16 +100,32 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void ShowSelectedHero(BaseHero hero)
+    public void ShowRemainingHealthPoint(Tile tile)
+    {
+        if (tile != null && tile.OccupiedUnit != null)
+        {
+            tile.OccupiedUnit.OnRemainingHealthPointsChanged -= UpdateRemainingHealthPoints;
+            tile.OccupiedUnit.OnRemainingHealthPointsChanged += UpdateRemainingHealthPoints;
+
+            UpdateRemainingHealthPoints(tile.OccupiedUnit, EventArgs.Empty);
+            _heroRemainingHealthPointObject.SetActive(true);
+        }
+        else
+        {
+            _heroRemainingHealthPointObject.SetActive(false);
+        }
+    }
+
+    public void ShowSelectedUnit(BaseHero hero)
     {
         if (hero == null)
         {
-            _selectedHeroObject.SetActive(false);
+            _selectedUnitObject.SetActive(false);
             return;
         }
 
-        _selectedHeroObject.GetComponentInChildren<Text>().text = hero.UnitName;
-        _selectedHeroObject.SetActive(true);
+        _selectedUnitObject.GetComponentInChildren<Text>().text = hero.UnitName;
+        _selectedUnitObject.SetActive(true);
     }
 
     public void ShowCurrentGameState(GameState gameState)

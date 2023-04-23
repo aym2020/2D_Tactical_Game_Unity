@@ -57,11 +57,13 @@ public class UnitManager : MonoBehaviour
             {
                 MenuManager.Instance.ShowRemainingMovementPoint(SpawnedHero.OccupiedTile);
                 MenuManager.Instance.ShowRemainingActionPoint(SpawnedHero.OccupiedTile);
+                MenuManager.Instance.ShowRemainingHealthPoint(SpawnedHero.OccupiedTile);
             }
             else
             {
                 MenuManager.Instance.ShowRemainingMovementPoint(null);
                 MenuManager.Instance.ShowRemainingActionPoint(null);
+                MenuManager.Instance.ShowRemainingHealthPoint(null);
             }
 
             // Update the SpellButtonHandler with the instantiated hero's SpellCaster component
@@ -137,7 +139,7 @@ public class UnitManager : MonoBehaviour
     public void SetSelectedHero(BaseHero hero)
     {
         SelectedHero = hero;
-        MenuManager.Instance.ShowSelectedHero(hero);
+        MenuManager.Instance.ShowSelectedUnit(hero);
     }
 
     public void SetSelectedEnemy(BaseEnemy enemy)

@@ -122,7 +122,11 @@ public class SpellManager : MonoBehaviour
                 targets.Add(tile.OccupiedUnit);
             }
         }
+        Debug.Log("Targets: " + targets.Count);
+        
         return targets;
+
+        
     }
 
 }

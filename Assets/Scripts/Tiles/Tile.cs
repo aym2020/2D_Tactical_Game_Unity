@@ -68,10 +68,9 @@ public abstract class Tile : MonoBehaviour
                 }
                
             }
-
-            
         }
     }
+
     void OnMouseExit()
     {
         UnhighlightTargetTiles();
@@ -144,10 +143,11 @@ public abstract class Tile : MonoBehaviour
         int centerX = centerTile.X;
         int centerY = centerTile.Y;
 
+        TargetedTiles.Add(centerTile);
+
         if (spellTargetType == SpellTargetType.OneTile)
         {
             centerTile._highlight.SetActive(true);
-            TargetedTiles.Add(centerTile);
         }
 
         else if (spellTargetType == SpellTargetType.Cross)
@@ -205,7 +205,6 @@ public abstract class Tile : MonoBehaviour
                 }
             }
         }
-
     }
 
     public void UnhighlightTargetTiles()

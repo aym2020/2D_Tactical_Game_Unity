@@ -49,10 +49,12 @@ public class BaseUnit : MonoBehaviour
     public event EventHandler OnActionPointsReset;
     public event EventHandler OnRemainingMovementPointsChanged;
     public event EventHandler OnRemainingActionPointsChanged;
+    public event EventHandler OnRemainingHealthPointsChanged;
     
     // Remaining points
     public int remainingMovementPoints;
     public int remainingActionPoints;
+    public int remainingHealthPoints;
 
     public int RemainingMovementPoints
     {
@@ -71,6 +73,16 @@ public class BaseUnit : MonoBehaviour
         {
             remainingActionPoints = value;
             OnRemainingActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public int RemainingHealthPoints
+    {
+        get => remainingHealthPoints;
+        set
+        {
+            remainingHealthPoints = value;
+            OnRemainingHealthPointsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -103,7 +115,7 @@ public class BaseUnit : MonoBehaviour
             foreach (Tile pathTile in path)
             {
                 pathTile.UnhighlightPath();
-
+            
                 int distance = pathTile.SetUnit(this);
 
                 float moveTime = distance * (1 / moveSpeed);
@@ -195,6 +207,7 @@ public class BaseUnit : MonoBehaviour
             foreach (Tile tile in highlightedPath)
             {
                 tile.UnhighlightPath();
+                tile.ResetHighlightSpriteToDefault();
             }
         }
     }
@@ -257,7 +270,4 @@ public class BaseUnit : MonoBehaviour
             }
         }
     }
-    
-
-
 }

@@ -23,6 +23,9 @@ public class FightManager : MonoBehaviour
         int newHealthPoints = target.GetHealthPoints() - damage;
         target.SetHealthPoints(newHealthPoints);
 
+        // Update Health Points UI
+        MenuManager.Instance.ShowRemainingHealthPoint(target.OccupiedTile);
+
         Debug.Log($"{attacker.UnitName} dealt {damage} damage to {target.UnitName}.");
         Debug.Log($"{target.UnitName} has {newHealthPoints} health points left.");
 
