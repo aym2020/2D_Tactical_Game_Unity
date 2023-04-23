@@ -140,6 +140,7 @@ public abstract class Tile : MonoBehaviour
     public void SetTargetTiles(Tile centerTile, int crossSize, SpellTargetType spellTargetType)
     {
         var gridManager = GridManager.Instance;
+        
         int centerX = centerTile.X;
         int centerY = centerTile.Y;
 
