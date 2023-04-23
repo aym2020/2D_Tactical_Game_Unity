@@ -76,7 +76,7 @@ public abstract class Tile : MonoBehaviour
     {
         UnhighlightTargetTiles();
 
-        _highlight.SetActive(false);
+        this.UnhighlightTile();
 
         MenuManager.Instance.ShowTileInfo(null);
 
@@ -88,7 +88,6 @@ public abstract class Tile : MonoBehaviour
                 UnitManager.Instance.SelectedHero.HideHighlightPath();
             }
         }
-        ResetHighlightSpriteToDefault();
     }
 
     private void OnMouseDown()
@@ -215,8 +214,10 @@ public abstract class Tile : MonoBehaviour
 
         foreach (Tile tile in TargetedTiles)
         {
+            tile.UnhighlightTile();
+
             tile.ResetHighlightSpriteToDefault();
-            tile._highlight.SetActive(false);
+            
             tilesToRemove.Add(tile);
         }
 
@@ -227,7 +228,12 @@ public abstract class Tile : MonoBehaviour
         }
     }
 
-
+    // Unhighlight highlighted tile
+    public void UnhighlightTile()
+    {
+        _highlight.SetActive(false);
+    }
+    
     // Highlight movement range
     public virtual void HighlightMovementRange()
     {

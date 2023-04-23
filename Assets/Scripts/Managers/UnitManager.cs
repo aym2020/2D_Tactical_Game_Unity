@@ -174,16 +174,19 @@ public class UnitManager : MonoBehaviour
         {
             HideAllHighlights();
             HandleSpellCast(tile);
+            tile.UnhighlightTargetTiles();
         }
         else if (tile.OccupiedUnit != null)
         {
             HideAllHighlights();
             HandleUnitInteraction(tile);
+            tile.UnhighlightTargetTiles();
         }
         else
         {
             HideAllHighlights();
             HandleEmptyTileInteraction(tile);
+            tile.UnhighlightTargetTiles();
         }
     }
 
