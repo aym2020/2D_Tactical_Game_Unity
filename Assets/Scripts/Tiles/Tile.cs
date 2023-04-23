@@ -20,13 +20,14 @@ public abstract class Tile : MonoBehaviour
     public Sprite _spriteTargetHighlight;
     public Sprite _spriteMovementHighlight;
     public BaseUnit OccupiedUnit;
-    public List<Tile> TargetTile = new List<Tile>();
+    public List<Tile> TargetedTiles = new List<Tile>();
 
     // getters and setters
     public int X { get; private set; }
     public int Y { get; private set; }
     public GameObject Highlight => _highlight;
     public bool Walkable => _isWalkable && OccupiedUnit == null;
+    public List<Tile> GetTargetedTilesList() => TargetedTiles;
 
     public virtual void Init(int x, int y)
     {
@@ -39,6 +40,7 @@ public abstract class Tile : MonoBehaviour
     void OnMouseEnter()
     {
         _highlight.SetActive(true);
+
         MenuManager.Instance.ShowTileInfo(this);
 
         if (UnitManager.Instance.SelectedHero != null && SpellManager.Instance.SelectedSpell == null)
@@ -58,9 +60,9 @@ public abstract class Tile : MonoBehaviour
 
             if (targetableTiles.Contains(this))
             {
-                HighlightTargetTiles(this, targetSize, spellTargetType);
+                SetTargetTiles(this, targetSize, spellTargetType);
 
-                foreach (Tile tile in TargetTile)
+                foreach (Tile tile in TargetedTiles)
                 {
                     tile.ChangeHighlightSpriteToTargetSprite();
                 }
@@ -72,9 +74,9 @@ public abstract class Tile : MonoBehaviour
     }
     void OnMouseExit()
     {
-        _highlight.SetActive(false);
-
         UnhighlightTargetTiles();
+
+        _highlight.SetActive(false);
 
         MenuManager.Instance.ShowTileInfo(null);
 
@@ -137,7 +139,7 @@ public abstract class Tile : MonoBehaviour
     }
 
     // Highlight cross tiles
-    public void HighlightTargetTiles(Tile centerTile, int crossSize, SpellTargetType spellTargetType)
+    public void SetTargetTiles(Tile centerTile, int crossSize, SpellTargetType spellTargetType)
     {
         var gridManager = GridManager.Instance;
         int centerX = centerTile.X;
@@ -146,32 +148,32 @@ public abstract class Tile : MonoBehaviour
         if (spellTargetType == SpellTargetType.OneTile)
         {
             centerTile._highlight.SetActive(true);
-            TargetTile.Add(centerTile);
+            TargetedTiles.Add(centerTile);
         }
 
         else if (spellTargetType == SpellTargetType.Cross)
         {
             for (int i = 1; i <= crossSize; i++)
             {
-                // Up
-                var upTile = gridManager.GetTileAtPosition(new Vector2(centerX, centerY + i));
-                upTile._highlight.SetActive(true);
-                TargetTile.Add(upTile);
-                
-                // Down
-                var downTile = gridManager.GetTileAtPosition(new Vector2(centerX, centerY - i));
-                downTile._highlight.SetActive(true);
-                TargetTile.Add(downTile);
+                // Directions to check
+                Vector2[] directions = new Vector2[]
+                {
+                    new Vector2(centerX, centerY + i),
+                    new Vector2(centerX, centerY - i),
+                    new Vector2(centerX - i, centerY),
+                    new Vector2(centerX + i, centerY),
+                };
 
-                // Left
-                var leftTile = gridManager.GetTileAtPosition(new Vector2(centerX - i, centerY));
-                leftTile._highlight.SetActive(true);
-                TargetTile.Add(leftTile);
-
-                // Right
-                var rightTile = gridManager.GetTileAtPosition(new Vector2(centerX + i, centerY));
-                rightTile._highlight.SetActive(true);
-                TargetTile.Add(rightTile);
+                // Iterate through directions and highlight valid tiles
+                foreach (Vector2 direction in directions)
+                {
+                    var tile = gridManager.GetTileAtPosition(direction);
+                    if (tile != null)
+                    {
+                        tile._highlight.SetActive(true);
+                        TargetedTiles.Add(tile);
+                    }
+                }
             }
         }
 
@@ -179,55 +181,41 @@ public abstract class Tile : MonoBehaviour
         {
             for (int i = 1; i <= crossSize; i++)
             {
-                // Up
-                var upTile = gridManager.GetTileAtPosition(new Vector2(centerX, centerY + i));
-                upTile._highlight.SetActive(true);
-                TargetTile.Add(upTile);
-                
-                // Down
-                var downTile = gridManager.GetTileAtPosition(new Vector2(centerX, centerY - i));
-                downTile._highlight.SetActive(true);
-                TargetTile.Add(downTile);
+                // Directions to check
+                Vector2[] directions = new Vector2[]
+                {
+                    new Vector2(centerX, centerY + i),
+                    new Vector2(centerX, centerY - i),
+                    new Vector2(centerX - i, centerY),
+                    new Vector2(centerX + i, centerY),
+                    new Vector2(centerX - (i - 1), centerY + (i - 1)),
+                    new Vector2(centerX + (i - 1), centerY + (i - 1)),
+                    new Vector2(centerX - (i - 1), centerY - (i - 1)),
+                    new Vector2(centerX + (i - 1), centerY - (i - 1)),
+                };
 
-                // Left
-                var leftTile = gridManager.GetTileAtPosition(new Vector2(centerX - i, centerY));
-                leftTile._highlight.SetActive(true);
-                TargetTile.Add(leftTile);
-
-                // Right
-                var rightTile = gridManager.GetTileAtPosition(new Vector2(centerX + i, centerY));
-                rightTile._highlight.SetActive(true);
-                TargetTile.Add(rightTile);
-
-                // Up Left
-                var upLeftTile = gridManager.GetTileAtPosition(new Vector2(centerX - i, centerY + i));
-                upLeftTile._highlight.SetActive(true);
-                TargetTile.Add(upLeftTile);
-
-                // Up Right
-                var upRightTile = gridManager.GetTileAtPosition(new Vector2(centerX + i, centerY + i));
-                upRightTile._highlight.SetActive(true);
-                TargetTile.Add(upRightTile);
-
-                // Down Left
-                var downLeftTile = gridManager.GetTileAtPosition(new Vector2(centerX - i, centerY - i));
-                downLeftTile._highlight.SetActive(true);
-                TargetTile.Add(downLeftTile);
-
-                // Down Right
-                var downRightTile = gridManager.GetTileAtPosition(new Vector2(centerX + i, centerY - i));
-                downRightTile._highlight.SetActive(true);
-                TargetTile.Add(downRightTile);
+                // Iterate through directions and highlight valid tiles
+                foreach (Vector2 direction in directions)
+                {
+                    var tile = gridManager.GetTileAtPosition(direction);
+                    if (tile != null)
+                    {
+                        tile._highlight.SetActive(true);
+                        TargetedTiles.Add(tile);
+                    }
+                }
             }
         }
+
     }
 
     public void UnhighlightTargetTiles()
     {
         List<Tile> tilesToRemove = new List<Tile>();
 
-        foreach (Tile tile in TargetTile)
+        foreach (Tile tile in TargetedTiles)
         {
+            tile.ResetHighlightSpriteToDefault();
             tile._highlight.SetActive(false);
             tilesToRemove.Add(tile);
         }
@@ -235,7 +223,7 @@ public abstract class Tile : MonoBehaviour
         // Remove the tiles after iterating through the list
         foreach (Tile tile in tilesToRemove)
         {
-            TargetTile.Remove(tile);
+            TargetedTiles.Remove(tile);
         }
     }
 
@@ -301,8 +289,4 @@ public abstract class Tile : MonoBehaviour
     {
         Highlight.GetComponent<SpriteRenderer>().sprite = _spriteMovementHighlight;
     }
-
 } 
-
-
- 

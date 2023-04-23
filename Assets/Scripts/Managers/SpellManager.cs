@@ -34,19 +34,30 @@ public class SpellManager : MonoBehaviour
             caster.RemainingActionPoints -= selectedSpell.GetSpellCost();
             UpdateSpellButtons();
 
-            BaseUnit targetUnit = targetTile.OccupiedUnit;
+            // Get the list of target tiles
+            List<BaseUnit> targets = GetUnitsFromTargetTiles(targetTile.GetTargetedTilesList());
+            
+            // Get the spell power
+            int spellPower = FightManager.Instance.RandomizeDamage(selectedSpell.GetSpellDamageBottom(), selectedSpell.GetSpellDamageTop());
 
-            if (targetUnit != null && targetUnit.Faction != caster.Faction)
+            foreach (BaseUnit targetUnit in targets)
             {
-                FightManager.Instance.SetAttackerAndTarget(caster, targetUnit);
+                // Calculate the damage
+                int damageCalculated = FightManager.Instance.CalculateDamage(caster, targetUnit, spellPower);
+        
+                // If the target tile is occupied by an enemy unit
+                if (targetUnit != null && targetUnit.Faction != caster.Faction)
+                {
+                    
+                    FightManager.Instance.SetAttackerAndTarget(caster, targetUnit);
+                    FightManager.Instance.ApplyDamage(caster, targetUnit, damageCalculated);
+                }
 
-                FightManager.Instance.ApplyDamage(caster, targetUnit, selectedSpell.GetSpellDamageBottom(), selectedSpell.GetSpellDamageUp());
-            }
-
-            // If the target tile is not occupied by an enemy unit
-            else if (targetUnit == null)
-            {
-                FightManager.Instance.SetAttackerAndTarget(caster, null);
+                // If the target tile is not occupied by an enemy unit
+                else if (targetUnit == null)
+                {
+                    FightManager.Instance.SetAttackerAndTarget(caster, null);
+                }
             }
         }
         else
@@ -98,6 +109,20 @@ public class SpellManager : MonoBehaviour
                 spellButtonHandler.Button.interactable = canCastSpell;
             }
         }
+    }
+
+    public List<BaseUnit> GetUnitsFromTargetTiles(List<Tile> tiles)
+    {
+        List<BaseUnit> targets = new List<BaseUnit>();
+
+        foreach (Tile tile in tiles)
+        {
+            if (tile.OccupiedUnit != null)
+            {
+                targets.Add(tile.OccupiedUnit);
+            }
+        }
+        return targets;
     }
 
 }

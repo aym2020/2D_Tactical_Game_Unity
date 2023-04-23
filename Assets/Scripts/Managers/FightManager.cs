@@ -14,13 +14,12 @@ public class FightManager : MonoBehaviour
         Instance = this;
     }
 
-    public void ApplyDamage(BaseUnit attacker, BaseUnit target, int minDamage, int maxDamage)
+    public void ApplyDamage(BaseUnit attacker, BaseUnit target, int damage)
     {
         // Show spell animation
         AnimationManager.Instance.CreateSpellAnimation(target.transform.position);
 
-        // Calculate damage
-        int damage = Random.Range(minDamage, maxDamage);
+        // Apply damage
         int newHealthPoints = target.GetHealthPoints() - damage;
         target.SetHealthPoints(newHealthPoints);
 
@@ -50,6 +49,20 @@ public class FightManager : MonoBehaviour
     {
         Attackers.Add(attacker);
         Targets.Add(target);
+    }
+
+    // Calculate damage
+    public int CalculateDamage(BaseUnit caster, BaseUnit targetUnit, int damages)
+    {
+        int damageCalculated = damages * 1;
+        
+        return damageCalculated;
+    }
+
+    public int RandomizeDamage(int minDamage, int maxDamage)
+    {
+        int spellPower = Random.Range(minDamage, maxDamage);
+        return spellPower;
     }
 
 }

@@ -9,7 +9,7 @@ public class BaseSpell : MonoBehaviour
     [SerializeField] private int spellMinRange;
     [SerializeField] private int spellRange;
     [SerializeField] private int spellDamageBottom;
-    [SerializeField] private int spellDamageUp;
+    [SerializeField] private int spellDamageTop;
     [SerializeField] private int spellCost;
     [SerializeField] private int spellCooldown;
     [SerializeField] private int spellDuration;
@@ -24,7 +24,7 @@ public class BaseSpell : MonoBehaviour
     public int GetSpellMinRange() => spellMinRange;
     public int GetSpellRange() => spellRange;
     public int GetSpellDamageBottom() => spellDamageBottom;
-    public int GetSpellDamageUp() => spellDamageUp;
+    public int GetSpellDamageTop() => spellDamageTop;
     public int GetSpellCost() => spellCost;
     public int GetSpellCooldown() => spellCooldown;
     public int GetSpellDuration() => spellDuration;
@@ -38,7 +38,7 @@ public class BaseSpell : MonoBehaviour
     public void SetSpellMinRange(int value) => spellMinRange = value;
     public void SetSpellRange(int value) => spellRange = value;
     public void SetSpellDamageBottom(int value) => spellDamageBottom = value;
-    public void SetSpellDamageUp(int value) => spellDamageUp = value;
+    public void SetSpellDamageUp(int value) => spellDamageTop = value;
     public void SetSpellCost(int value) => spellCost = value;
     public void SetSpellCooldown(int value) => spellCooldown = value;
     public void SetSpellDuration(int value) => spellDuration = value;
