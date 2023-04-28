@@ -90,6 +90,7 @@ public class BaseUnit : MonoBehaviour
     {
         RemainingMovementPoints = MovementPoints;
         RemainingActionPoints = ActionPoints;
+        RemainingHealthPoints = HealthPoints;
 
         OccupiedTile = GridManager.Instance.GetHeroSpawnTile();
     }

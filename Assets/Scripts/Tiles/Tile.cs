@@ -179,32 +179,31 @@ public abstract class Tile : MonoBehaviour
 
         else if (spellTargetType == SpellTargetType.Circle)
         {
-            for (int i = 1; i <= crossSize; i++)
-            {
-                // Directions to check
-                Vector2[] directions = new Vector2[]
-                {
-                    new Vector2(centerX, centerY + i),
-                    new Vector2(centerX, centerY - i),
-                    new Vector2(centerX - i, centerY),
-                    new Vector2(centerX + i, centerY),
-                    new Vector2(centerX - (i - 1), centerY + (i - 1)),
-                    new Vector2(centerX + (i - 1), centerY + (i - 1)),
-                    new Vector2(centerX - (i - 1), centerY - (i - 1)),
-                    new Vector2(centerX + (i - 1), centerY - (i - 1)),
-                };
+            List<Vector2> directions = new List<Vector2>();
 
-                // Iterate through directions and highlight valid tiles
-                foreach (Vector2 direction in directions)
+            for (int x = 0; x <= crossSize; x++)
+            {
+                for (int y = 0; y <= crossSize - x; y++)
                 {
-                    var tile = gridManager.GetTileAtPosition(direction);
-                    if (tile != null)
-                    {
-                        tile._highlight.SetActive(true);
-                        TargetedTiles.Add(tile);
-                    }
+                    // Directions to check
+                    directions.Add(new Vector2(x+centerX, y+centerY));
+                    directions.Add(new Vector2(-x+centerX, y+centerY));
+                    directions.Add(new Vector2(x+centerX, -y+centerY));
+                    directions.Add(new Vector2(-x+centerX, -y+centerY));
                 }
             }
+
+            // Iterate through directions and highlight valid tiles
+            foreach (Vector2 direction in directions)
+            {
+                var tile = gridManager.GetTileAtPosition(direction);
+                if (tile != null)
+                {
+                    tile._highlight.SetActive(true);
+                    TargetedTiles.Add(tile);
+                }
+            }
+            
         }
     }
 

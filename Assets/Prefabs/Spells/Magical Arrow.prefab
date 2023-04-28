@@ -45,12 +45,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: Magical Arrow
   spellIcon: {fileID: 21300000, guid: e540d91b7b396da41bc36958d8dbd6ba, type: 3}
+  spellMinRange: 0
   spellRange: 6
   spellDamageBottom: 4
-  spellDamageUp: 8
+  spellDamageTop: 0
   spellCost: 3
   spellCooldown: 0
   spellDuration: 0
-  spellRadius: 0
+  spellRadius: 2
   spellType: 0
   spellRangeType: 1
+  spellTargetType: 2
