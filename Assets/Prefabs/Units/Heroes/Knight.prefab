@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3933890373811556372}
-  - component: {fileID: 1655664882223527371}
+  - component: {fileID: 4037983338662609504}
   - component: {fileID: -1986589854213342613}
   - component: {fileID: 4392830368341232023}
   m_Layer: 0
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1655664882223527371
+--- !u!114 &4037983338662609504
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,19 +42,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 7634486513472420672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6f0261e3aa86e3419e2528c5bf59dd7, type: 3}
+  m_Script: {fileID: 11500000, guid: 092ca468ce94db34f9a02afb930deb54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UnitName: Knight
   OccupiedTile: {fileID: 0}
   Faction: 0
   moveSpeed: 50
-  MovementPoints: 20
+  MovementPoints: 5
   ActionPoints: 6
   HealthPoints: 40
   availableTiles: []
   remainingMovementPoints: 0
   remainingActionPoints: 0
+  remainingHealthPoints: 0
 --- !u!114 &-1986589854213342613
 MonoBehaviour:
   m_ObjectHideFlags: 0

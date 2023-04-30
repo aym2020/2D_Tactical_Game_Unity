@@ -78,6 +78,4 @@ public class SpellButtonHandler : MonoBehaviour
         }
         return null;
     }
-
-
 }

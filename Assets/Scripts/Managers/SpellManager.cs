@@ -11,11 +11,19 @@ public class SpellManager : MonoBehaviour
     private SpellButtonHandler selectedSpellButton;
     public List<SpellButtonHandler> spellButtonHandlers;
     public BaseSpell _selectedSpell;
+    public List<Tile> targetedTiles;
 
+    // getters and setters
     public BaseSpell SelectedSpell
     {
         get { return _selectedSpell; }
         set { _selectedSpell = value; }
+    }
+
+    public List<Tile> TargetedTiles
+    {   
+        get { return targetedTiles; }
+        set { targetedTiles = value; } 
     }
 
     private void Awake()
@@ -35,7 +43,11 @@ public class SpellManager : MonoBehaviour
             UpdateSpellButtons();
 
             // Get the list of target tiles
-            List<BaseUnit> targets = GetUnitsFromTargetTiles(targetTile.GetTargetedTilesList());
+            TargetedTiles = targetTile.GetTargetedTilesList();
+
+            List<BaseUnit> targets = GetUnitsFromTargetTiles(TargetedTiles, selectedSpell, caster);
+
+            Debug.Log($"Casting {selectedSpell.GetSpellName()} on {targets.Count} targets.");
             
             // Get the spell power
             int spellPower = FightManager.Instance.RandomizeDamage(selectedSpell.GetSpellDamageBottom(), selectedSpell.GetSpellDamageTop());
@@ -111,22 +123,31 @@ public class SpellManager : MonoBehaviour
         }
     }
 
-    public List<BaseUnit> GetUnitsFromTargetTiles(List<Tile> tiles)
+    public List<BaseUnit> GetUnitsFromTargetTiles(List<Tile> tiles, BaseSpell spell, BaseUnit caster)
     {
         List<BaseUnit> targets = new List<BaseUnit>();
 
         foreach (Tile tile in tiles)
         {
-            if (tile.OccupiedUnit != null)
+            BaseUnit occupiedUnit = tile.OccupiedUnit;
+
+            if (occupiedUnit == null)
             {
-                targets.Add(tile.OccupiedUnit);
+                continue;
+            }
+
+            bool isEnemy = occupiedUnit.Faction != caster.Faction;
+            bool isSelfTargetSpell = spell.spellRangeType == SpellRangeType.SelfTarget;
+            bool isSelf = spell.spellRangeType == SpellRangeType.Self;
+
+            if ((isEnemy && !isSelfTargetSpell) || isSelf)
+            {
+                targets.Add(occupiedUnit);
             }
         }
-        Debug.Log("Targets: " + targets.Count);
-        
-        return targets;
 
-        
+        return targets;  
     }
+
 
 }

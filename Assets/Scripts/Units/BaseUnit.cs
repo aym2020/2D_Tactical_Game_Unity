@@ -97,7 +97,7 @@ public class BaseUnit : MonoBehaviour
 
     // Reset remaining points
     public void ResetMovementPoints()
-    {
+    { 
         RemainingMovementPoints = MovementPoints;
         OnMovementPointsReset?.Invoke(this, EventArgs.Empty);
     }

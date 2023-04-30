@@ -45,29 +45,11 @@ public abstract class Tile : MonoBehaviour
 
         if (UnitManager.Instance.SelectedHero != null && SpellManager.Instance.SelectedSpell == null)
         {
-            List<Tile> AvailableTiles = RangeFinder.GetMovementRangeTiles(UnitManager.Instance.SelectedHero.OccupiedTile, UnitManager.Instance.SelectedHero.RemainingMovementPoints);
-            if (AvailableTiles.Contains(this))
-            {
-                UnitManager.Instance.SelectedHero.ShowHighlightPath(this);
-                ChangeHighlightSpriteToMovementSprite();
-            }
+            DisplayMovementSpriteAndPath();
         }
         else if (SpellManager.Instance.SelectedSpell != null)
         {
-            List<Tile> targetableTiles = UnitManager.Instance.SpawnedHero.SpellTargetableTiles;
-            SpellTargetType spellTargetType = SpellManager.Instance.SelectedSpell.GetSpellTargetType();
-            int targetSize = SpellManager.Instance.SelectedSpell.GetSpellRadius();
-
-            if (targetableTiles.Contains(this))
-            {
-                SetTargetTiles(this, targetSize, spellTargetType);
-
-                foreach (Tile tile in TargetedTiles)
-                {
-                    tile.ChangeHighlightSpriteToTargetSprite();
-                }
-               
-            }
+            DisplayTargetTiles();
         }
     }
 
@@ -79,14 +61,7 @@ public abstract class Tile : MonoBehaviour
 
         MenuManager.Instance.ShowTileInfo(null);
 
-        if (UnitManager.Instance.SelectedHero != null)
-        {
-            List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(UnitManager.Instance.SelectedHero.OccupiedTile, UnitManager.Instance.SelectedHero.RemainingMovementPoints);
-            if (availableTiles.Contains(this))
-            {
-                UnitManager.Instance.SelectedHero.HideHighlightPath();
-            }
-        }
+        StopDisplayingPath();
     }
 
     private void OnMouseDown()
@@ -136,7 +111,7 @@ public abstract class Tile : MonoBehaviour
         return UnitManager.Instance.AllBaseUnits.Any(unit => unit.OccupiedTile == this);
     }
 
-    // Highlight cross tiles
+    // Highlight tiles
     public void SetTargetTiles(Tile centerTile, int crossSize, SpellTargetType spellTargetType)
     {
         var gridManager = GridManager.Instance;
@@ -200,12 +175,58 @@ public abstract class Tile : MonoBehaviour
                 if (tile != null)
                 {
                     tile._highlight.SetActive(true);
-                    TargetedTiles.Add(tile);
+
+                    // Add tile to list of targeted tiles if it is not already in the list
+                    if (!TargetedTiles.Contains(tile))
+                    {
+                        TargetedTiles.Add(tile);
+                    }
                 }
             }
             
         }
     }
+
+    public void DisplayTargetTiles()
+    {
+        List<Tile> targetableTiles = UnitManager.Instance.SpawnedHero.SpellTargetableTiles;
+        SpellTargetType spellTargetType = SpellManager.Instance.SelectedSpell.GetSpellTargetType();
+        int targetSize = SpellManager.Instance.SelectedSpell.GetSpellRadius();
+
+        if (targetableTiles.Contains(this))
+        {
+            SetTargetTiles(this, targetSize, spellTargetType);
+
+            foreach (Tile tile in TargetedTiles)
+            {
+                tile.ChangeHighlightSpriteToTargetSprite();
+            }
+            
+        }
+    }
+
+    public void StopDisplayingPath()
+    {
+        if (UnitManager.Instance.SelectedHero != null)
+        {
+            List<Tile> availableTiles = RangeFinder.GetMovementRangeTiles(UnitManager.Instance.SelectedHero.OccupiedTile, UnitManager.Instance.SelectedHero.RemainingMovementPoints);
+            if (availableTiles.Contains(this))
+            {
+                UnitManager.Instance.SelectedHero.HideHighlightPath();
+            }
+        }
+    }
+
+    public void DisplayMovementSpriteAndPath()
+    {
+        List<Tile> AvailableTiles = RangeFinder.GetMovementRangeTiles(UnitManager.Instance.SelectedHero.OccupiedTile, UnitManager.Instance.SelectedHero.RemainingMovementPoints);
+        if (AvailableTiles.Contains(this))
+        {
+            UnitManager.Instance.SelectedHero.ShowHighlightPath(this);
+            ChangeHighlightSpriteToMovementSprite();
+        }
+    }
+    
 
     public void UnhighlightTargetTiles()
     {

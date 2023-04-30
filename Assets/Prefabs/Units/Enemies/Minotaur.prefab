@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5482222545728288305}
+  - component: {fileID: 3153972370220711465}
   - component: {fileID: 1187734704218178594}
   - component: {fileID: 2508479927792623982}
   - component: {fileID: -3500322541292425678}
-  - component: {fileID: 4907462212164684909}
   m_Layer: 0
   m_Name: Minotaur
   m_TagString: Untagged
@@ -34,6 +34,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3153972370220711465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790305289469020442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f633a61354e237e4ca8b21a8eeba7176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnitName: Minotaur
+  OccupiedTile: {fileID: 0}
+  Faction: 1
+  moveSpeed: 50
+  MovementPoints: 3
+  ActionPoints: 6
+  HealthPoints: 10
+  availableTiles: []
+  remainingMovementPoints: 0
+  remainingActionPoints: 0
+  remainingHealthPoints: 0
+  Archetype: 0
+  FightIntelligence: 1
 --- !u!114 &1187734704218178594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,27 +136,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e5113f7856f0b45946d161ed402885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4907462212164684909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1790305289469020442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84c3d80ba3ecb734486917e7a697b6c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UnitName: Minotaur
-  OccupiedTile: {fileID: 0}
-  Faction: 1
-  moveSpeed: 50
-  MovementPoints: 3
-  ActionPoints: 6
-  HealthPoints: 10
-  availableTiles: []
-  remainingMovementPoints: 0
-  remainingActionPoints: 0
-  Archetype: 0
-  FightIntelligence: 1

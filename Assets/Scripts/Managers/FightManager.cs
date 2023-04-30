@@ -21,10 +21,14 @@ public class FightManager : MonoBehaviour
 
         // Apply damage
         int newHealthPoints = target.GetHealthPoints() - damage;
-        target.SetHealthPoints(newHealthPoints);
+        target.RemainingHealthPoints = newHealthPoints;
+        
 
         // Update Health Points UI
-        MenuManager.Instance.ShowRemainingHealthPoint(target.OccupiedTile);
+        if (target.Faction != Faction.Enemy)
+        {
+            MenuManager.Instance.ShowRemainingHealthPoint(target.OccupiedTile);
+        }
 
         Debug.Log($"{attacker.UnitName} dealt {damage} damage to {target.UnitName}.");
         Debug.Log($"{target.UnitName} has {newHealthPoints} health points left.");
@@ -32,6 +36,7 @@ public class FightManager : MonoBehaviour
         // Show damage popup
         AnimationManager.Instance.CreateDamagePopup(target.transform.position, damage, false);
 
+        // Check if the target is dead
         if (newHealthPoints <= 0 && target.Faction == Faction.Enemy)
         {
             // Handle unit death (remove from the game, play animation, etc.)

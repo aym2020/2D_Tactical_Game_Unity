@@ -993,7 +993,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: d7cffddcbc0cc8f4ebe6e28eb9804082, type: 3}
     m_FontSize: 50
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 50
@@ -2553,7 +2553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundTile: {fileID: -9039275297657941028, guid: 1927ccf1104c8d34180afe63d0a65b1c, type: 3}
   mountainTile: {fileID: 5480578709091384967, guid: 823f01d8cb0a2344e83eb0b80bf89137, type: 3}
-  _fieldSize: 10
+  _fieldSize: 15
   _mainCamera: {fileID: 519420031}
 --- !u!4 &1347682860
 Transform:
@@ -2943,3 +2943,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellButtonHandlers: []
   _selectedSpell: {fileID: 0}
+  targetedTiles: []

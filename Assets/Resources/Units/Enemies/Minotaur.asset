@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Minotaur
   m_EditorClassIdentifier: 
   Faction: 1
-  UnitPrefab: {fileID: 4907462212164684909, guid: 5c8d1d785ac72d44e8010a47c02e73ae, type: 3}
+  UnitPrefab: {fileID: 3153972370220711465, guid: 5c8d1d785ac72d44e8010a47c02e73ae, type: 3}

@@ -110,22 +110,20 @@ public class MenuManager : MonoBehaviour
             UpdateRemainingHealthPoints(tile.OccupiedUnit, EventArgs.Empty);
             _heroRemainingHealthPointObject.SetActive(true);
         }
-        else
-        {
-            _heroRemainingHealthPointObject.SetActive(false);
-        }
     }
 
-    public void ShowSelectedUnit(BaseHero hero)
+    public void ShowUnitName(BaseUnit unit)
     {
-        if (hero == null)
+        // Display the name of the selected unit, by default, it's the name of the spawned hero
+        if (unit != null)
         {
-            _selectedUnitObject.SetActive(false);
-            return;
+            _selectedUnitObject.GetComponentInChildren<Text>().text = unit.UnitName;
+            _selectedUnitObject.SetActive(true);
         }
-
-        _selectedUnitObject.GetComponentInChildren<Text>().text = hero.UnitName;
-        _selectedUnitObject.SetActive(true);
+        else
+        {
+            _selectedUnitObject.GetComponentInChildren<Text>().text = UnitManager.Instance.SpawnedHero.UnitName;
+        }
     }
 
     public void ShowCurrentGameState(GameState gameState)

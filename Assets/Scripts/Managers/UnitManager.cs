@@ -58,6 +58,7 @@ public class UnitManager : MonoBehaviour
                 MenuManager.Instance.ShowRemainingMovementPoint(SpawnedHero.OccupiedTile);
                 MenuManager.Instance.ShowRemainingActionPoint(SpawnedHero.OccupiedTile);
                 MenuManager.Instance.ShowRemainingHealthPoint(SpawnedHero.OccupiedTile);
+                MenuManager.Instance.ShowUnitName(SpawnedHero);
             }
             else
             {
@@ -139,7 +140,7 @@ public class UnitManager : MonoBehaviour
     public void SetSelectedHero(BaseHero hero)
     {
         SelectedHero = hero;
-        MenuManager.Instance.ShowSelectedUnit(hero);
+        MenuManager.Instance.ShowUnitName(hero);
     }
 
     public void SetSelectedEnemy(BaseEnemy enemy)
